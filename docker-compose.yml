@@ -20,6 +20,9 @@ services:
     restart: always
     ports:
     - 9000:9000
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - symfony
 
@@ -31,6 +34,24 @@ services:
     - 3000:3000
     depends_on:
       - symfony
+    networks:
+      - symfony
+
+  mysql:
+    image: mysql
+    container_name: course-mysql
+    restart: always
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: gnTsdl!32s
+      MYSQL_DATABASE: course
+    volumes:
+    - ./mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      retries: 5
+      timeout: 20s
     networks:
       - symfony
 
