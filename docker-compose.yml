@@ -1,0 +1,42 @@
+services:
+  server:
+    image: nginx:latest
+    container_name: course-nginx  
+    restart: always
+    ports: 
+    - 8888:80
+    volumes:
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./nginx/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    - ./symfony/public/bundles:/app/public/bundles
+    depends_on:
+      - symfony
+    networks:
+      - symfony
+
+  symfony:
+    build: ./symfony
+    container_name: course-symfony
+    restart: always
+    ports:
+    - 9000:9000
+    networks:
+      - symfony
+
+  frontend:
+    build: ./frontend
+    container_name: course-frontend
+    restart: always
+    ports:
+    - 3000:3000
+    depends_on:
+      - symfony
+    networks:
+      - symfony
+
+networks:
+  symfony:
+    name: symfony
+
+
+
