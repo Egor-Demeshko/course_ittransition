@@ -23,10 +23,6 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    volumes:
-      # use bubdles from image
-      - /app/public/bundles
-      - ./symfony:/app
     networks:
       - symfony
 
@@ -34,9 +30,6 @@ services:
     build: ./frontend
     container_name: course-frontend
     restart: always
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
     ports:
     - 3000:3000
     depends_on:
@@ -54,7 +47,7 @@ services:
       MYSQL_ROOT_PASSWORD: gnTsdl!32s
       MYSQL_DATABASE: course
     volumes:
-    - mysql_data:/var/lib/mysql
+    - ./mysql:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       retries: 5
@@ -62,12 +55,12 @@ services:
     networks:
       - symfony
 
-volumes:
-  mysql_data:
-
 networks:
   symfony:
     name: symfony
+
+volumes:
+  mysql_data:
 
 
 

@@ -12,7 +12,8 @@ RUN apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    && docker-php-ext-install pdo_mysql
 
 RUN curl -sSLo composer-setup.php https://getcomposer.org/installer && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
