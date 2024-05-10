@@ -27,8 +27,12 @@ services:
       # use bubdles from image
       - /app/public/bundles
       - ./symfony:/app
+      # xdebug config
+      - ./docker/xdebug/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./docker/xdebug/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     networks:
       - symfony
+
 
   frontend:
     build: ./frontend
