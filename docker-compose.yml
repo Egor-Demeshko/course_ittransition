@@ -38,6 +38,8 @@ services:
     build: ./frontend
     container_name: course-frontend
     restart: always
+    environment:
+      - PUBLIC_API_ORIGIN=api.localhost
     volumes:
       - /app/node_modules
       - ./frontend:/app
