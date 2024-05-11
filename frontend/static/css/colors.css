@@ -1,0 +1,46 @@
+:root {
+    --violet: #5a6acf;
+    --light-violet: #c7ceff;
+    --dark-violet: #37375c;
+    --light-grey: #f6f6fb;
+    --grey: #627b87;
+    --dark-grey: #273240;
+    --black: #080808;
+    --white: #fbfbfb;
+    --dark-transparent: #37375c4b;
+    --white-transparent: #f6f6fb49;
+    --red: #a10101;
+    --dark-red: #720000;
+
+    --font-violet: var(--dark-violet);
+    --font-main: var(--black);
+    --font-grey: var(--grey);
+    --logo-background: var(--violet);
+    --logo-color: var(--white);
+    --background: var(--white);
+    --search-background: var(--light-grey);
+    --border-active: var(--light-violet);
+    --background-transparent: var(--dark-transparent);
+    --icon: var(--grey);
+    --border: var(--light-grey);
+    --danger: var(--red);
+    --danger-accent: var(--dark-red);
+
+    --button-main: var(--violet);
+    --button-main-hover: var(--dark-violet);
+
+    --button-secondary: var(--light-violet);
+    --button-secondary-hover: var(--violet);
+
+    html.theme-dark {
+        --font-violetfont-color: var(--white);
+        --font-main: var(--white);
+        --background: var(--dark-violet);
+        --logo-background: var(--light-violet);
+        --logo-color: var(--dark-violet);
+        --icon: var(--white);
+        --background-transparent: var(--white-transparent);
+
+        --button-main: var(--light-violet);
+    }
+}
