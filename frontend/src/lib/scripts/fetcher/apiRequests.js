@@ -47,9 +47,6 @@ async function login(data) {
 async function sendPostForm(route, data) {
     const options = {
         method: POST,
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
         body: data,
     };
 

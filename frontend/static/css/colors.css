@@ -11,9 +11,11 @@
     --white-transparent: #f6f6fb49;
     --red: #a10101;
     --dark-red: #720000;
+    --green: #008b00;
 
     --font-violet: var(--dark-violet);
     --font-main: var(--black);
+    --font-white: var(--white);
     --font-grey: var(--grey);
     --logo-background: var(--violet);
     --logo-color: var(--white);
@@ -23,8 +25,11 @@
     --background-transparent: var(--dark-transparent);
     --icon: var(--grey);
     --border: var(--light-grey);
+
+    /* stuts colors */
     --danger: var(--red);
     --danger-accent: var(--dark-red);
+    --success: var(--green);
 
     --button-main: var(--violet);
     --button-main-hover: var(--dark-violet);
@@ -35,6 +40,7 @@
     html.theme-dark {
         --font-violetfont-color: var(--white);
         --font-main: var(--white);
+        --font-white: var(--black);
         --background: var(--dark-violet);
         --logo-background: var(--light-violet);
         --logo-color: var(--dark-violet);

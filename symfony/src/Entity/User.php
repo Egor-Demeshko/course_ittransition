@@ -6,10 +6,15 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('email', 'Account with such an email already exists.')]
 #[ApiResource]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,16 +22,23 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Name field should not be empty.')]
+    // #[Assert\NoSuspiciousCharacters] needs intl plugin
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Password field should not be empty.')]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\Email(message: 'Email should be like example@example.by')]
+    #[Assert\NotBlank(message: 'Email field shouldn\'t be empty')]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::BINARY)]
     private $role;
+
+    private array $roles = [];
 
     #[ORM\Column]
     private ?bool $status = null;
@@ -90,9 +102,9 @@ class User
         return $this->role;
     }
 
-    public function setRole($role): static
+    public function setRole(int $role): static
     {
-        $this->role = $role;
+        $this->role = decbin($role);
 
         return $this;
     }
@@ -131,5 +143,35 @@ class User
         $this->modified_at = $modified_at;
 
         return $this;
+    }
+
+
+    /** AUTH */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }

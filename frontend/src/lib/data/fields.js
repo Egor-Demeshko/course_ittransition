@@ -2,33 +2,33 @@ import { LOGIN, REGISTER } from "$lib/data/consts.js";
 import { POST } from "$lib/scripts/fetcher/methods.js";
 
 /**
- * @type {Record<string, []>}
+ * @type {Record<string, {[key: string]: any}>}
  */
 let fieldsContainer = {};
 
 // @ts-ignore
-fieldsContainer[REGISTER] = [
-    {
+fieldsContainer[REGISTER] = {
+    name: {
         type: "text",
-        name: "name",
+        name: "[name]",
         label: "Enter name",
         value: null,
         invalid: false,
         error: null,
         placeholder: "Name",
     },
-    {
+    email: {
         type: "email",
-        name: "email",
+        name: "[email]",
         label: "Enter email",
         value: null,
         invalid: false,
         error: null,
         placeholder: "Email",
     },
-    {
+    password: {
         type: "password",
-        name: "password",
+        name: "[password][first]",
         label: "Enter password",
         value: null,
         invalid: false,
@@ -36,9 +36,9 @@ fieldsContainer[REGISTER] = [
         placeholder: "Password",
         show_eye: true,
     },
-    {
+    password_repeat: {
         type: "password",
-        name: "password_2",
+        name: "[password][second]",
         label: "Repeat password",
         value: null,
         invalid: false,
@@ -46,11 +46,11 @@ fieldsContainer[REGISTER] = [
         placeholder: "Password",
         show_eye: true,
     },
-];
+};
 
 // @ts-ignore
-fieldsContainer[LOGIN] = [
-    {
+fieldsContainer[LOGIN] = {
+    email: {
         type: "email",
         name: "email",
         label: "Enter email",
@@ -59,7 +59,7 @@ fieldsContainer[LOGIN] = [
         error: null,
         placeholder: "Email",
     },
-    {
+    password: {
         type: "password",
         name: "password",
         label: "Enter password",
@@ -69,7 +69,7 @@ fieldsContainer[LOGIN] = [
         placeholder: "Password",
         show_eye: true,
     },
-];
+};
 
 /**
  * @type {Record<string, {

@@ -3,17 +3,36 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Service\Errors;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Throwable;
 
 /**
  * @extends ServiceEntityRepository<User>
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private const DB_USER_FLUSH_ERROR = "[ERROR ON USER FLUSHING]: ";
+    private ?Errors $errorsManager = null;
+    private ?EntityManagerInterface $entityManager = null;
+    public function __construct(ManagerRegistry $registry, Errors $errors, EntityManagerInterface $em)
     {
         parent::__construct($registry, User::class);
+        $this->errorsManager = $errors;
+        $this->entityManager = $em;
+    }
+
+    public function saveUser(User $user): void
+    {
+        try {
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        } catch (Throwable $e) {
+            $this->errorsManager->setError(Errors::GENERAL, Errors::MESSAGE);
+            $this->errorsManager->logErrorMessage(self::DB_USER_FLUSH_ERROR, $e->getMessage());
+        }
     }
 
     //    /**

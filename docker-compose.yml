@@ -39,7 +39,7 @@ services:
     container_name: course-frontend
     restart: always
     environment:
-      - PUBLIC_API_ORIGIN=api.localhost
+      - PUBLIC_API_ORIGIN=api.localhost:8888
     volumes:
       - /app/node_modules
       - ./frontend:/app

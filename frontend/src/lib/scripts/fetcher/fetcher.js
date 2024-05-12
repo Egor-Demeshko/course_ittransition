@@ -4,5 +4,5 @@
  * @returns
  */
 export async function request(route, options) {
-    return fetch(route, options);
+    return await fetch(route, options);
 }
