@@ -12,6 +12,7 @@
     export let label = "";
     /** @type {?boolean}*/
     export let show_eye = null;
+    export let formType = "login";
 
     // @ts-ignore
     function validate({ target }) {
@@ -30,9 +31,17 @@
 <div class:invalid>
     <label for={name}>{error ? error : label}</label>
     <div class="input_wrapper">
-        <input {type} {name} {value} {placeholder} on:change={validate} />
+        <input
+            id={name}
+            {type}
+            name={`${formType}${name}`}
+            {value}
+            {placeholder}
+            on:change={validate}
+        />
 
         {#if show_eye}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
             <svg
                 width="24"
                 height="24"
@@ -41,6 +50,8 @@
                 xmlns="http://www.w3.org/2000/svg"
                 on:click={() =>
                     (type = type === PASSWORD ? "text" : "password")}
+                tabindex="0"
+                role="button"
             >
                 <g clip-path="url(#clip0_6_51)">
                     <path

@@ -1,21 +1,33 @@
 <script>
     import Input from "$lib/components/form/Input.svelte";
+    import FormErrors from "$lib/components/form/FormErrors.svelte";
     import { formToOpen } from "$lib/components/TopSideBar.svelte";
     import { fade, fly } from "svelte/transition";
     import { fields } from "$lib/data/fields.js";
     import { request } from "$lib/scripts/form/request.js";
+    import {
+        successNotificationType,
+        errorNotificationType,
+        addNotification,
+    } from "$lib/components/notification/notification.js";
 
     export let data;
 
     /**
      * @type {{type: string, heading: string, primaryButtonText: string, method: string}}
      */
-    let { type, heading, primaryButtonText, method } = data;
+    let { type: formType, heading, primaryButtonText, method } = data;
+    let formFields = fields[formType];
 
     let show = false;
 
+    /**
+     * @type {[]}
+     */
+    let generalErrors = [];
+
     formToOpen.subscribe((value) => {
-        show = value === type;
+        show = value === formType;
     });
 
     /**
@@ -31,9 +43,59 @@
         }
     }
 
+    /**
+     * @param {Event} e
+     */
     async function submit(e) {
+        removeErrors();
+        // @ts-ignore
         let formData = new FormData(e.target);
-        await request(type, formData);
+        /**
+         * @type {{status: boolean, success_message: string, errors: [{field: string, message: string}]}}
+         */
+        let result = await request(formType, formData);
+        if (result.status) {
+            addNotification(successNotificationType, result.success_message);
+            formToOpen.set("");
+        } else {
+            showErrors(result.errors);
+            addNotification(
+                errorNotificationType,
+                "Error occured during form sending!"
+            );
+        }
+    }
+
+    /**
+     *
+     * @param {[{field: string, message: string}]} errors
+     */
+    function showErrors(errors) {
+        for (let error of errors) {
+            let field = formFields[error?.field] ?? null;
+
+            if (field !== "general") {
+                field.invalid = true;
+                field.error = error.message;
+            } else {
+                // @ts-ignore
+                generalErrors.push(error.message);
+            }
+        }
+
+        formFields = formFields;
+    }
+
+    function removeErrors() {
+        for (let field of Object.values(formFields)) {
+            if (field.invalid) {
+                field.invalid = false;
+                field.error = null;
+            }
+        }
+
+        formFields = formFields;
+        generalErrors = [];
     }
 </script>
 
@@ -41,20 +103,28 @@
     <div
         class="background"
         on:click={closeModal}
+        on:keydown={(e) => e.key === "Escape" && closeModal(e)}
         in:fade={{ duration: 300 }}
         out:fade={{ duration: 300, delay: 300 }}
+        role="button"
+        tabindex="0"
     >
         <form
             in:fly={{ duration: 300, delay: 300, x: -100 }}
             out:fly={{ duration: 300, x: -100 }}
             on:submit|preventDefault={submit}
             {method}
-            data-route={type}
+            name={formType}
         >
             <h3>{heading}</h3>
 
-            {#each fields[type] as { type, name, value, invalid, error, label, show_eye = false }}
+            {#if generalErrors.length > 0}
+                <FormErrors errors={generalErrors} />
+            {/if}
+
+            {#each Object.values(formFields) as { type, name, value, invalid, error, label, show_eye = false, placeholder }}
                 <Input
+                    {formType}
                     {type}
                     {name}
                     {value}
@@ -62,6 +132,7 @@
                     {error}
                     {label}
                     {show_eye}
+                    {placeholder}
                 />
             {/each}
 
