@@ -1,5 +1,4 @@
 <script context="module">
-    export const isLoggedIn = writable(false);
     export const formToOpen = writable("");
 </script>
 
@@ -9,6 +8,8 @@
     import Account from "$lib/components/Account.svelte";
     import { REGISTER, LOGIN } from "$lib/data/consts.js";
     import { writable } from "svelte/store";
+    import { user } from "$lib/scripts/token/userStore.js";
+    import { fade, fly } from "svelte/transition";
 </script>
 
 <header>
@@ -17,16 +18,25 @@
         <Search />
     </div>
     <div class="account">
-        {#if $isLoggedIn}
-            <Account />
-        {:else}
-            <div class="buttons">
-                <button on:click={() => formToOpen.set(LOGIN)}> Login </button>
-                <button on:click={() => formToOpen.set(REGISTER)}>
-                    Register
-                </button>
-            </div>
-        {/if}
+        <div class="account__wrapper">
+            {#if $user}
+                <div
+                    class="account_button"
+                    in:fly={{ duration: 300, x: 100, delay: 300 }}
+                >
+                    <Account />
+                </div>
+            {:else}
+                <div class="buttons" out:fly={{ duration: 300, y: -50 }}>
+                    <button on:click={() => formToOpen.set(LOGIN)}>
+                        Login
+                    </button>
+                    <button on:click={() => formToOpen.set(REGISTER)}>
+                        Register
+                    </button>
+                </div>
+            {/if}
+        </div>
     </div>
 </header>
 
@@ -52,6 +62,17 @@
     .account {
         flex: 1;
         text-align: end;
+    }
+
+    .account__wrapper {
+        position: relative;
+    }
+
+    .account_button {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
     }
 
     button {

@@ -35,6 +35,19 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    public function saveLoginTime(int $id): void
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->update(User::class, 'u')
+            ->set('u.last_loggined_at', ':last')
+            ->where('u.id=:id')
+            ->setParameter('id', $id)
+            ->setParameter('last', new \DateTime());
+
+        $query = $qb->getQuery();
+        $query->execute();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

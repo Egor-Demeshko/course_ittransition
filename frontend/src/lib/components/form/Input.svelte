@@ -12,7 +12,6 @@
     export let label = "";
     /** @type {?boolean}*/
     export let show_eye = null;
-    export let formType = "login";
 
     // @ts-ignore
     function validate({ target }) {
@@ -34,7 +33,7 @@
         <input
             id={name}
             {type}
-            name={`${formType}${name}`}
+            name={`${name}`}
             {value}
             {placeholder}
             on:change={validate}

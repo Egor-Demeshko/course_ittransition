@@ -124,7 +124,6 @@
 
             {#each Object.values(formFields) as { type, name, value, invalid, error, label, show_eye = false, placeholder }}
                 <Input
-                    {formType}
                     {type}
                     {name}
                     {value}
