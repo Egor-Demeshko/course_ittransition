@@ -20,6 +20,10 @@ services:
     restart: always
     ports:
     - 9000:9000
+    environment:
+      - JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+      - JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+      - JWT_PASSPHRASE=admin
     depends_on:
       mysql:
         condition: service_healthy
@@ -40,6 +44,7 @@ services:
     restart: always
     environment:
       - PUBLIC_API_ORIGIN=api.localhost:8888
+      - PUBLIC_API_PROTOCOL=http://
     volumes:
       - /app/node_modules
       - ./frontend:/app

@@ -10,7 +10,7 @@ let fieldsContainer = {};
 fieldsContainer[REGISTER] = {
     name: {
         type: "text",
-        name: "[name]",
+        name: `${REGISTER}[name]`,
         label: "Enter name",
         value: null,
         invalid: false,
@@ -19,7 +19,7 @@ fieldsContainer[REGISTER] = {
     },
     email: {
         type: "email",
-        name: "[email]",
+        name: `${REGISTER}[email]`,
         label: "Enter email",
         value: null,
         invalid: false,
@@ -28,7 +28,7 @@ fieldsContainer[REGISTER] = {
     },
     password: {
         type: "password",
-        name: "[password][first]",
+        name: `${REGISTER}[password][first]`,
         label: "Enter password",
         value: null,
         invalid: false,
@@ -38,7 +38,7 @@ fieldsContainer[REGISTER] = {
     },
     password_repeat: {
         type: "password",
-        name: "[password][second]",
+        name: `${REGISTER}[password][second]`,
         label: "Repeat password",
         value: null,
         invalid: false,
@@ -52,7 +52,7 @@ fieldsContainer[REGISTER] = {
 fieldsContainer[LOGIN] = {
     email: {
         type: "email",
-        name: "email",
+        name: "username",
         label: "Enter email",
         value: null,
         invalid: false,

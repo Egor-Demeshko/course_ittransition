@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTimeInterface $modified_at = null;
 
+    #[ORM\Column(type: TYPES::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $last_loggined_at = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,6 +145,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->modified_at = $modified_at;
 
+        return $this;
+    }
+
+    public function getLastLogginedAt(): ?\DateTimeInterface
+    {
+        return $this->last_loggined_at;
+    }
+
+    public function setLastLogginedAt(\DateTimeInterface $last_loggined_at): static
+    {
+        $this->last_loggined_at = $last_loggined_at;
         return $this;
     }
 
