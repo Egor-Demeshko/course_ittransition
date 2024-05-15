@@ -4,6 +4,34 @@
     import { exportformFields } from "$lib/data/fields.js";
     import { REGISTER, LOGIN } from "$lib/data/consts.js";
     import Notification from "$lib/components/notification/Notification.svelte";
+    import { isLoggined } from "$lib/scripts/login/isLoggined.js";
+    import { goto, onNavigate } from "$app/navigation";
+    import { onMount } from "svelte";
+
+    let canLoad = false;
+    let triggered = false;
+
+    onMount(freezeCheckLogin);
+    onNavigate(freezeCheckLogin);
+
+    function freezeCheckLogin() {
+        if (triggered) return;
+        triggered = true;
+
+        setTimeout(() => (triggered = false), 1000);
+        checkLogin();
+    }
+
+    async function checkLogin() {
+        if (await isLoggined()) {
+            canLoad = true;
+        } else {
+            if (window.location.href !== "/") {
+                canLoad = true;
+                return goto("/");
+            }
+        }
+    }
 </script>
 
 <TopSideBar />
@@ -11,7 +39,9 @@
 <Form data={exportformFields[REGISTER]} />
 <Form data={exportformFields[LOGIN]} />
 
-<slot></slot>
+{#if canLoad}
+    <slot></slot>
+{/if}
 
 <Notification />
 

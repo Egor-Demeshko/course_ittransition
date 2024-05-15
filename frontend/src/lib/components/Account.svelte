@@ -1,5 +1,6 @@
 <script>
     import { user } from "$lib/scripts/token/userStore.js";
+    import { onLogout } from "$lib/scripts/logout/onLogout.js";
     import { scale } from "svelte/transition";
     import { GUEST, HELLO, LOGOUT } from "$lib/data/texts";
 
@@ -42,7 +43,7 @@
                 {`${HELLO} ${name}`}
             </li>
             <hr />
-            <button class="logout">{LOGOUT}</button>
+            <button class="logout" on:click={onLogout}>{LOGOUT}</button>
         </ul>
     {/if}
 </div>

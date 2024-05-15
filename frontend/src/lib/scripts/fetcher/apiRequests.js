@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGIN_END } from "$lib/data/consts.js";
+import { REGISTER, LOGIN, LOGIN_END, LOGOUT } from "$lib/data/consts.js";
 import { PUBLIC_API_ORIGIN } from "$env/static/public";
 import { POST } from "$lib/scripts/fetcher/methods.js";
 import { request as sendRequest } from "$lib/scripts/fetcher/fetcher.js";
@@ -16,6 +16,7 @@ const requestObj = {};
 
 requestObj[REGISTER] = register;
 requestObj[LOGIN] = login;
+requestObj[LOGOUT] = logout;
 
 /**
  *
@@ -61,6 +62,22 @@ async function sendPostForm(route, data, headers = {}) {
     let response = await sendRequest(route, options);
 
     return await response.json();
+}
+
+async function logout() {
+    const route = `${apiRoute}/token/invalidate`;
+    const options = {
+        method: POST,
+        credentials: "include",
+    };
+
+    let response = await sendRequest(route, options);
+    if (response.ok) {
+        console.log("Logout success");
+        return true;
+    } else {
+        return false;
+    }
 }
 
 export const request = requestObj;
