@@ -2,7 +2,10 @@ import { user } from "$lib/scripts/token/userStore.js";
 import {
     saveToStorage,
     STORAGE_LOCAL,
+    getDataFromStorage,
 } from "$lib/scripts/storages/storages.js";
+import { loginState } from "$lib/scripts/login/loginState.js";
+import { get } from "svelte/store";
 
 /**
  * @param {string} token
@@ -45,6 +48,7 @@ function decodeToken(token) {
  */
 function setUser(payload) {
     let { name } = payload ? payload : { name: "Guest" };
+    // @ts-ignore
     user.set({ name });
 }
 
@@ -66,7 +70,51 @@ function saveToken(payload, storage, token) {
     }
 
     let exp = payload.exp ?? 0;
-    let data = { exp, token };
+    let name = payload.name ?? "";
+    let data = { exp, name, token };
 
     saveToStorage(storage, JSON.stringify(data));
+}
+
+export async function refresh() {
+    // вызываем fetcher енд для обновления токена
+}
+
+export function isToken() {
+    /** @type {?string} */
+    let tokenData = getDataFromStorage(STORAGE_LOCAL);
+
+    if (tokenData) {
+        let token = JSON.parse(tokenData);
+        if (isFresh(token)) {
+            get(loginState) || loginState.set(true);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+/**
+ *
+ * @param {{exp: number, token: string}} token
+ */
+function isFresh(token) {
+    console.log(Math.floor(Date.now() / 1000) - token.exp);
+    if (Math.floor(Date.now() / 1000) - token.exp < 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export function getNameFromToken() {
+    let tokenData = getDataFromStorage(STORAGE_LOCAL);
+    if (tokenData) {
+        return JSON.parse(tokenData)?.name ?? "";
+    }
+
+    return "";
 }
