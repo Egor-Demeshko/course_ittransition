@@ -2,5 +2,5 @@ gesdinet_jwt_refresh_token:
     refresh_token_class: App\Entity\RefreshToken
     cookie:
         enabled: true
-        secure: null
-        same_site: none
+        secure: false
+    logout_firewall: logout

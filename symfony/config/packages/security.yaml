@@ -20,6 +20,11 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             provider: app_user_provider
+        logout:
+            pattern: ^/api/token/invalidate
+            logout:
+                path: api_token_invalidate
+
         api:
             pattern: ^/api
             stateless: true
@@ -28,8 +33,7 @@ security:
             provider: app_user_provider
             refresh_jwt:
                 check_path: api_refresh_token
-            logout:
-                path: api_token_invalidate
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

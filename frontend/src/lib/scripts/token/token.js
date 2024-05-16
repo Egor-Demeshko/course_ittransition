@@ -6,6 +6,8 @@ import {
 } from "$lib/scripts/storages/storages.js";
 import { loginState } from "$lib/scripts/login/loginState.js";
 import { get } from "svelte/store";
+import { request } from "$lib/scripts/fetcher/apiRequests.js";
+import { REFRESH } from "$lib/data/consts.js";
 
 /**
  * @param {string} token
@@ -73,11 +75,11 @@ function saveToken(payload, storage, token) {
     let name = payload.name ?? "";
     let data = { exp, name, token };
 
-    saveToStorage(storage, JSON.stringify(data));
+    saveToStorage(storage, data);
 }
 
 export async function refresh() {
-    // вызываем fetcher енд для обновления токена
+    return await request[REFRESH]();
 }
 
 export function isToken() {
@@ -113,7 +115,7 @@ function isFresh(token) {
 export function getNameFromToken() {
     let tokenData = getDataFromStorage(STORAGE_LOCAL);
     if (tokenData) {
-        return JSON.parse(tokenData)?.name ?? "";
+        return tokenData?.name ?? "";
     }
 
     return "";

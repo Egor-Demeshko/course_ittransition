@@ -6,6 +6,7 @@ import {
 import { request } from "$lib/scripts/fetcher/apiRequests.js";
 import { addNotification } from "$lib/components/notification/notification.js";
 import { user } from "../token/userStore";
+import { goto } from "$app/navigation";
 
 export async function onLogout() {
     const { logout } = request;
@@ -17,6 +18,9 @@ export async function onLogout() {
             // @ts-ignore
             addNotification("success", "Logout successful!");
             user.set(null);
+            if (window.location.href !== "/") {
+                goto("/");
+            }
             return;
         }
     } catch (e) {
