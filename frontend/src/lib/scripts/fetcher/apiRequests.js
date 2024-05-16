@@ -1,9 +1,16 @@
-import { REGISTER, LOGIN, LOGIN_END, LOGOUT } from "$lib/data/consts.js";
+import {
+    REGISTER,
+    LOGIN,
+    LOGIN_END,
+    LOGOUT,
+    REFRESH,
+} from "$lib/data/consts.js";
 import { PUBLIC_API_ORIGIN } from "$env/static/public";
 import { POST } from "$lib/scripts/fetcher/methods.js";
 import { request as sendRequest } from "$lib/scripts/fetcher/fetcher.js";
 import { formToJson } from "$lib/scripts/form/formToJson.js";
 import { createResponseOnToken } from "$lib/scripts/login/login.js";
+import { RefreshTokenError } from "$lib/scripts/errors/RefreshTokenError.js";
 
 let protocol = globalThis?.location?.protocol === "https:" ? "https:" : "http:";
 let baseRoute = `${protocol}//${PUBLIC_API_ORIGIN}`;
@@ -17,6 +24,7 @@ const requestObj = {};
 requestObj[REGISTER] = register;
 requestObj[LOGIN] = login;
 requestObj[LOGOUT] = logout;
+requestObj[REFRESH] = refreshToken;
 
 /**
  *
@@ -68,7 +76,6 @@ async function logout() {
     const route = `${apiRoute}/token/invalidate`;
     const options = {
         method: POST,
-        credentials: "include",
     };
 
     let response = await sendRequest(route, options);
@@ -77,6 +84,21 @@ async function logout() {
         return true;
     } else {
         return false;
+    }
+}
+
+async function refreshToken() {
+    const route = `${apiRoute}/token/refresh`;
+    const options = {
+        method: POST,
+    };
+
+    let response = await sendRequest(route, options);
+
+    if (response.ok) {
+        return await response.json();
+    } else {
+        throw new RefreshTokenError();
     }
 }
 
