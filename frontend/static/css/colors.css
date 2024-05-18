@@ -7,7 +7,7 @@
     --grey: #627b87;
     --dark-grey: #273240;
     --black: #080808;
-    --white: #5a5050;
+    --white: #ffffff;
     --dark-transparent: #37375c4b;
     --white-transparent: #f6f6fb49;
     --red: #a10101;
@@ -16,7 +16,7 @@
 
     --font-violet: var(--dark-violet);
     --font-main: var(--black);
-    --font-white: var(--white);
+    --font-white: var(--light-grey);
     --font-grey: var(--grey);
     --logo-background: var(--violet);
     --logo-color: var(--white);
