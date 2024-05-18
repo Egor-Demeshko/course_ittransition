@@ -10,6 +10,10 @@ const config = {
         csrf: {
             checkOrigin: process.env.NODE_ENV === "development" ? false : true,
         },
+
+        alias: {
+            $types: "src/lib/types",
+        },
     },
 };
 

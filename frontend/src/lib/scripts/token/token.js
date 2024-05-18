@@ -82,7 +82,7 @@ export async function refresh() {
     return await request[REFRESH]();
 }
 
-export function isToken() {
+export async function isToken(wasRefreshed = false) {
     /** @type {?string} */
     let tokenData = getDataFromStorage(STORAGE_LOCAL);
 
@@ -92,6 +92,10 @@ export function isToken() {
             get(loginState) || loginState.set(true);
             return true;
         } else {
+            if (!wasRefreshed) {
+                await refresh();
+                return await isToken(true);
+            }
             return false;
         }
     } else {

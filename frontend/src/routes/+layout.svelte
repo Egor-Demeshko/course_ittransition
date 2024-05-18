@@ -8,29 +8,29 @@
     import { goto, onNavigate } from "$app/navigation";
     import { onMount } from "svelte";
 
-    let canLoad = false;
+    let canLoad = true;
     let triggered = false;
 
     onMount(freezeCheckLogin);
     onNavigate(freezeCheckLogin);
 
     function freezeCheckLogin() {
-        if (triggered) return;
+        /*if (triggered) return;
         triggered = true;
 
         setTimeout(() => (triggered = false), 1000);
-        checkLogin();
+        checkLogin();*/
     }
 
     async function checkLogin() {
-        if (await isLoggined()) {
+        /*if (await isLoggined()) {
             canLoad = true;
         } else {
             if (window.location.href !== "/") {
                 canLoad = true;
                 return goto("/");
             }
-        }
+        }*/
     }
 </script>
 

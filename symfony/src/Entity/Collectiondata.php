@@ -42,6 +42,10 @@ class Collectiondata
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTimeInterface $modified_at = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -132,6 +136,18 @@ class Collectiondata
     public function setModifiedAt(?\DateTimeInterface $modified_at): static
     {
         $this->modified_at = $modified_at;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(User $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

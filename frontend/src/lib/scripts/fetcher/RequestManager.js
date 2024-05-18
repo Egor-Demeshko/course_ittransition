@@ -17,7 +17,7 @@ export async function makePreperedApiReqeust(requestId, data) {
 }
 
 async function prepareToken(isRefreshed = false) {
-    if (isToken()) {
+    if (await isToken()) {
         return true;
     }
 

@@ -12,9 +12,10 @@ import { formToJson } from "$lib/scripts/form/formToJson.js";
 import { createResponseOnToken } from "$lib/scripts/login/login.js";
 import { RefreshTokenError } from "$lib/scripts/errors/RefreshTokenError.js";
 
-let protocol = globalThis?.location?.protocol === "https:" ? "https:" : "http:";
-let baseRoute = `${protocol}//${PUBLIC_API_ORIGIN}`;
-let apiRoute = `${baseRoute}/api`;
+export let protocol =
+    globalThis?.location?.protocol === "https:" ? "https:" : "http:";
+export let baseRoute = `${protocol}//${PUBLIC_API_ORIGIN}`;
+export let apiRoute = `${baseRoute}/api`;
 
 /**
  * @type {Record<string, function>}
