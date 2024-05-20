@@ -1,6 +1,6 @@
 <script>
     import Button from "$lib/components/Controlls/Button.svelte";
-    import { ADD_COLLECTION } from "$lib/data/texts.js";
+    import { ADD_COLLECTION, DEFAULT_TITLE } from "$lib/data/texts.js";
     import {
         apimap,
         errorsmap,
@@ -12,14 +12,30 @@
         errorNotificationType,
     } from "$lib/components/notification/notification.js";
     import { collectionsStore } from "$lib/scripts/collections/collectionsStore.js";
+    import {
+        getDataFromStorage,
+        STORAGE_LOCAL,
+    } from "$lib/scripts/storages/storages";
+    import { getCollectionObj } from "$lib/scripts/utils/DTO/getCollectionObj";
+    import { CATHEGORY, USER } from "$lib/scripts/fetcher/apimap.js";
+    import { collectionToApp } from "$lib/scripts/normolize/CollectionToApp.js";
 
     async function clickHandler() {
+        const data = getDataFromStorage(STORAGE_LOCAL);
+        if (!data) return;
+        const { token, user_id } = JSON.parse(data);
+        const bodyObj = getCollectionObj();
+        bodyObj.user = `/api/${USER}/${user_id}`;
+
+        setDefaults(bodyObj);
+        const body = JSON.stringify(bodyObj);
         try {
             /**@type {import('$types/types').Collection}*/
-            const result = await apimap[COLLECTION][CREATE]();
+            const result = await apimap[COLLECTION][CREATE](body, token);
             if (result) {
+                const collection = collectionToApp(result);
                 collectionsStore.update((collections) => {
-                    return { [result.id]: result, ...collections };
+                    return { [collection.id]: collection, ...collections };
                 });
             }
         } catch (e) {
@@ -29,6 +45,13 @@
                 errorsmap[COLLECTION][CREATE]
             );
         }
+    }
+
+    // @ts-ignore
+    function setDefaults(bodyObj) {
+        bodyObj.title = DEFAULT_TITLE;
+        bodyObj.description = DEFAULT_TITLE;
+        bodyObj.cathegory = `/api/${CATHEGORY}/1`;
     }
 </script>
 

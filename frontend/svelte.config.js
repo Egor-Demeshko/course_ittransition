@@ -13,6 +13,7 @@ const config = {
 
         alias: {
             $types: "src/lib/types",
+            $data: "src/lib/data",
         },
     },
 };

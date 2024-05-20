@@ -2,36 +2,57 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\POST;
 use App\Repository\CollectiondataRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Category;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: CollectiondataRepository::class)]
 #[ORM\Table(name: 'collection_data')]
-#[ApiResource]
+#[ApiResource(
+    shortName: "Collection",
+    operations: [
+        new Post(
+            normalizationContext: ['groups' => ['collection:create:newitem']],
+            denormalizationContext: ['groups' => ['collection:create']]
+        )
+    ],
+    paginationItemsPerPage: 5
+)]
 class Collectiondata
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['collection:create:newitem'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Groups(['collection:create:newitem', 'collection:create'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['collection:create:newitem', 'collection:create'])]
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $cathegory_id = null;
+    #[Groups(['collection:create:newitem'])]
+    private ?int $cathegory_id;
 
-    #[ORM\OneToOne(Category::class, inversedBy: 'collection_data')]
+    #[ORM\ManyToOne(Category::class, cascade: ['persist', 'remove'], inversedBy: 'collectionData')]
     #[ORM\JoinColumn(name: 'cathegory_id', referencedColumnName: "id", nullable: false)]
     #[Assert\Valid]
-    private ?Category $category = null;
+    #[Groups(['collection:create'])]
+    private ?Category $cathegory = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_link = null;
@@ -40,11 +61,21 @@ class Collectiondata
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
+    #[Groups("collection:create:newitem")]
     private ?\DateTimeInterface $modified_at = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    #[ORM\Column]
+    private ?int $user_id = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'collectionData')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups(['collection:create:newitem', 'collection:create'])]
+    private ?User $user = null;
+
+    public function __construct()
+    {
+        $this->created_at = new DateTimeImmutable('now');
+    }
 
     public function getId(): ?int
     {
@@ -54,6 +85,18 @@ class Collectiondata
     public function setId(int $id): static
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -87,7 +130,7 @@ class Collectiondata
         return $this->cathegory_id;
     }
 
-    public function setCathegoryId(string $cathegory_id): static
+    public function setCathegoryId(int $cathegory_id): static
     {
         $this->cathegory_id = $cathegory_id;
 
@@ -96,12 +139,12 @@ class Collectiondata
 
     public function getCathegory(): ?Category
     {
-        return $this->category;
+        return $this->cathegory;
     }
 
-    public function setCathegory(?Category $category): void
+    public function setCathegory(?Category $cathegory): void
     {
-        $this->category = $category;
+        $this->cathegory = $cathegory;
     }
 
     public function getImageLink(): ?string
@@ -140,14 +183,14 @@ class Collectiondata
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(User $user_id): static
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }

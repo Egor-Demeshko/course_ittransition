@@ -8,6 +8,7 @@ import { loginState } from "$lib/scripts/login/loginState.js";
 import { get } from "svelte/store";
 import { request } from "$lib/scripts/fetcher/apiRequests.js";
 import { REFRESH } from "$lib/data/consts.js";
+import { normolizeTokenDataToStorage } from "$lib/scripts/normolize/tokenToStorage.js";
 
 /**
  * @param {string} token
@@ -17,11 +18,10 @@ export function setDataFromToken(token, options = { storage: STORAGE_LOCAL }) {
     let result = false;
 
     try {
-        /**@type {{header: ?{}, payload: ?{name: string, email: string, ext: number}, signuture: ?string}} */
         let data = decodeToken(token);
 
         setUser(data.payload);
-        saveToken(data.payload, options.storage, token);
+        saveToken(data.payload, options.storage);
 
         result = true;
     } catch (e) {
@@ -35,8 +35,11 @@ export function setDataFromToken(token, options = { storage: STORAGE_LOCAL }) {
  * @param {string} token
  */
 function decodeToken(token) {
+    if (!token || token === "") {
+        throw new Error("Token is required!");
+    }
     const [header, payload, signuture] = token.split(".");
-    /**@type {{header: ?{}, payload: ?{name: string, email: string, ext: number}, signuture: ?string}} */
+    /**@type {{header: ?{}, payload: ?import('$types/types').TokenPayload, signuture: ?string}} */
     const decodedObj = {};
 
     decodedObj.payload = JSON.parse(atob(payload));
@@ -46,7 +49,7 @@ function decodeToken(token) {
 
 /**
  *
- * @param {?{name: string, email: string}} payload
+ * @param {?import('$types/types').TokenPayload} payload
  */
 function setUser(payload) {
     let { name } = payload ? payload : { name: "Guest" };
@@ -62,24 +65,31 @@ name: "test"
 ​​
 
  * 
- * @param {?{exp: number, name: string, email: string}} payload
+ * @param {?import('$types/types').TokenPayload} payload
  * @param {string} storage
- * @param {string} token 
+
  */
-function saveToken(payload, storage, token) {
-    if (!payload || !token) {
+function saveToken(payload, storage) {
+    if (!payload) {
         throw new Error("payload or token is required!");
     }
 
-    let exp = payload.exp ?? 0;
-    let name = payload.name ?? "";
-    let data = { exp, name, token };
+    const obj = normolizeTokenDataToStorage(STORAGE_LOCAL, payload);
 
-    saveToStorage(storage, data);
+    let exp = obj.exp;
+    let name = obj.name;
+    let user_id = obj.user_id;
+    let token = obj.token;
+    let data = { exp, name, token, user_id };
+
+    saveToStorage(storage, JSON.stringify(data));
 }
 
 export async function refresh() {
-    return await request[REFRESH]();
+    /** @type {{token: string}} */
+    const refreshData = await request[REFRESH]();
+    const { payload } = decodeToken(refreshData.token);
+    saveToken(payload, STORAGE_LOCAL);
 }
 
 export async function isToken(wasRefreshed = false) {
@@ -87,13 +97,14 @@ export async function isToken(wasRefreshed = false) {
     let tokenData = getDataFromStorage(STORAGE_LOCAL);
 
     if (tokenData) {
-        let token = JSON.parse(tokenData);
-        if (isFresh(token)) {
+        let { token, exp } = JSON.parse(tokenData);
+        if (isFresh(exp)) {
             get(loginState) || loginState.set(true);
             return true;
         } else {
             if (!wasRefreshed) {
                 await refresh();
+
                 return await isToken(true);
             }
             return false;
@@ -105,11 +116,11 @@ export async function isToken(wasRefreshed = false) {
 
 /**
  *
- * @param {{exp: number, token: string}} token
+ * @param {number} exp
  */
-function isFresh(token) {
-    console.log(Math.floor(Date.now() / 1000) - token.exp);
-    if (Math.floor(Date.now() / 1000) - token.exp < 0) {
+function isFresh(exp) {
+    console.log(Math.floor(Date.now() / 1000) - exp);
+    if (Math.floor(Date.now() / 1000) - exp < 0) {
         return true;
     } else {
         return false;
@@ -119,7 +130,10 @@ function isFresh(token) {
 export function getNameFromToken() {
     let tokenData = getDataFromStorage(STORAGE_LOCAL);
     if (tokenData) {
-        return tokenData?.name ?? "";
+        let { name } = JSON.parse(tokenData);
+        if (tokenData && name) {
+            return name;
+        }
     }
 
     return "";

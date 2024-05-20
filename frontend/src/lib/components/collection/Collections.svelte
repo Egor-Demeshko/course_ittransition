@@ -13,7 +13,9 @@
 </script>
 
 <div>
-    {#each Object.values(collections) as collection}
-        <SingleCollection {collection} />
-    {/each}
+    {#key collections}
+        {#each Object.values(collections) as collection}
+            <SingleCollection {collection} />
+        {/each}
+    {/key}
 </div>

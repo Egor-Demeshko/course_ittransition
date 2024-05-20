@@ -1,17 +1,17 @@
 import { writable } from "svelte/store";
-import { BOOKS, SILVERWARE } from "$lib/data/texts.js";
+import { CATEGORIES } from "$lib/data/texts.js";
 
 /**
- * @type {{[key: number]:import('$types/types').Collection}}
+ * @type {{[key: string]:import('$types/types').Collection}}
  */
 let collections = {
-    1: {
-        id: 0,
+    "/api/collections/999": {
+        id: "/api/collections/999",
         title: "Название коллекции",
         description: `<p>[Markdown]Lorem ipsum dolor sit amet consectetur. Imperdiet at orci quam ultricies egestas vestibulum. Morbi fermentum sed vulputate enim amet ultricies tellus. Risus duis dui amet pulvinar duis pretium massa aliquet. Semper tristique ipsum augue nisl urna arcu volutpat cursus vestibulum.</p>
             <p>[Markdown]Lorem ipsum dolor sit amet consectetur. Imperdiet at orci quam ultricies egestas vestibulum. Morbi fermentum sed vulputate enim amet ultricies tellus. Risus duis dui amet pulvinar duis pretium massa aliquet. Semper tristique ipsum augue nisl urna arcu volutpat cursus vestibulum.</p>`,
         image: null,
-        category: SILVERWARE,
+        category: CATEGORIES[3 + 1],
         modifed_at: null,
         fields: [
             {
@@ -28,14 +28,14 @@ let collections = {
             },
         ],
     },
-    2: {
-        id: 1,
+    "/api/collections/998": {
+        id: "/api/collections/998",
         title: "Вторая коллекции",
         description: `[Markdown]Lorem ipsum dolor sit amet consectetur. Imperdiet at orci quam ultricies egestas vestibulum. Morbi fermentum sed vulputate enim amet ultricies tellus. Risus duis dui amet pulvinar duis pretium massa aliquet. Semper tristique ipsum augue nisl urna arcu volutpat cursus vestibulum. 
             [Markdown]Lorem ipsum dolor sit amet consectetur. Imperdiet at orci quam ultricies egestas vestibulum. Morbi fermentum sed vulputate enim amet ultricies tellus. Risus duis dui amet pulvinar duis pretium massa aliquet. Semper tristique ipsum augue nisl urna arcu volutpat cursus vestibulum.`,
         image: null,
         modifed_at: "2022-01-01T05:44:00.000Z",
-        category: BOOKS,
+        category: CATEGORIES[1 + 1],
         fields: [
             {
                 type: "string",

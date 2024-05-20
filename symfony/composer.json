@@ -24,6 +24,7 @@
         "symfony/flex": "^2",
         "symfony/form": "7.0.*",
         "symfony/framework-bundle": "7.0.*",
+        "symfony/monolog-bundle": "^3.0",
         "symfony/property-access": "7.0.*",
         "symfony/property-info": "7.0.*",
         "symfony/runtime": "7.0.*",
@@ -83,6 +84,9 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.59"
+        "symfony/debug-bundle": "7.0.*",
+        "symfony/maker-bundle": "^1.59",
+        "symfony/stopwatch": "7.0.*",
+        "symfony/web-profiler-bundle": "7.0.*"
     }
 }
