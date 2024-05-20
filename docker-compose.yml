@@ -18,8 +18,7 @@ services:
     build: ./symfony
     container_name: course-symfony
     restart: always
-    ports:
-    - 9000:9000
+
     environment:
       - JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
       - JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem

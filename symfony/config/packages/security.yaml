@@ -32,7 +32,7 @@ security:
             jwt: ~
             provider: app_user_provider
             refresh_jwt:
-                check_path: api_refresh_token
+                check_path: /api/token/refresh
 
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -51,7 +51,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/+, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: PUBLIC_ACCESS }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

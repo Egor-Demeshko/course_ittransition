@@ -4,7 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource]
@@ -18,8 +21,13 @@ class Category
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(targetEntity: Collectiondata::class)]
-    private ?Collectiondata $collectionData = null;
+    #[ORM\OneToMany(mappedBy: "cathegory", targetEntity: Collectiondata::class)]
+    private Collection $collectionData;
+
+    public function __construct()
+    {
+        $this->collectionData = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

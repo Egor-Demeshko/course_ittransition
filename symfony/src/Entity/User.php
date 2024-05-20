@@ -3,9 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,17 +18,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('email', 'Account with such an email already exists.')]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['user:read']]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Name field should not be empty.')]
     // #[Assert\NoSuspiciousCharacters] needs intl plugin
+    #[Groups(['user:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -33,6 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\Email(message: 'Email should be like example@example.by')]
     #[Assert\NotBlank(message: 'Email field shouldn\'t be empty')]
+    #[Groups(['user:read'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::BINARY)]
@@ -40,17 +54,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private array $roles = [];
 
+    #[Groups(['user:read'])]
     #[ORM\Column]
     private ?bool $status = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[Groups(['user:read'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTimeInterface $modified_at = null;
 
     #[ORM\Column(type: TYPES::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $last_loggined_at = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Collectiondata::class, cascade: ['persist'],)]
+    private Collection $collectionData;
+
+    public function __construct()
+    {
+        $this->collectionData = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,5 +212,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function getCollectionData(): ?Collection
+    {
+        return $this->collectionData;
+    }
+
+    public function addCollectionData(CollectionData $data): static
+    {
+        if (!$this->collectionData->contains($data)) {
+            $this->collectionData->add($data);
+            $data->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectionData(CollectionData $data): static
+    {
+        if ($this->collectionData->removeElement($data)) {
+            if ($data->getUser() === $this) {
+                $data->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

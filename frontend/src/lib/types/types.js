@@ -1,6 +1,6 @@
 /**
  * @typedef Collection
- * @property {number} id
+ * @property {string} id
  * @property {string} title
  * @property {string} description
  * @property {?string} image
@@ -9,6 +9,15 @@
  * @property {Array<{label: string, type: string}>} fields - dynamic fields of collection, can be added bu user
  */
 export const Collection = "Collection";
+
+/**
+ * @typedef CollectionDTO
+ * @property {string} title
+ * @property {string} description
+ * @property {string} cathegory
+ * @property {?string} user
+ */
+export const CollectionDTO = "CollectionDTO";
 
 /**
  * @typedef Collections
@@ -35,3 +44,19 @@ export const RequestMap = "RequestMap";
  * @type {{[key: string]: {[key: string]: string}}}
  */
 export const RequestErrors = "RequestErrors";
+
+/**
+ * @typedef Normolizers
+ * @type {{[key: string]: Function}}
+ */
+export const Normolizers = "Normolizers";
+
+/**
+ * Token refresh/login payload
+ * @typedef {Object} TokenPayload
+ * @property {number} user_id
+ * @property {number} exp
+ * @property {string} name
+ * @property {string} token
+ */
+export const TokenPayload = "TokenPayload";

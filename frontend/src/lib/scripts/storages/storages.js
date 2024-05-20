@@ -28,6 +28,7 @@ export function saveToStorage(key, value) {
 
 /**
  * @param {string} key - storage ID
+ * @return {?string}
  */
 export function getDataFromStorage(key) {
     switch (key) {
@@ -52,4 +53,17 @@ export function clearStorageValueByKey(storageId, key) {
             storages[STORAGE_LOCAL].removeItem(key);
             break;
     }
+}
+
+/**
+ *
+ * @param {string} storageId
+ * @returns {number|null}
+ */
+export function getUserId(storageId) {
+    const data = getDataFromStorage(storageId);
+    if (data) {
+        return JSON.parse(data).user_id;
+    }
+    return null;
 }

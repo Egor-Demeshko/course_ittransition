@@ -48,6 +48,8 @@
         align-items: center;
         gap: 3rem;
         border-bottom: 2px solid var(--border);
+        position: sticky;
+        z-index: 2;
     }
 
     .logo {
