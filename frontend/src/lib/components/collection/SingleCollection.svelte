@@ -18,11 +18,12 @@
     function addField() {
         fields = [...fields, { label: ENTER_NAME, type: "string" }];
     }
+    console.log(collection);
 </script>
 
 <section>
     <div class="left">
-        <LeftCollection bind:title {description} />
+        <LeftCollection bind:title bind:description />
     </div>
     <div class="right">
         <RightCollection

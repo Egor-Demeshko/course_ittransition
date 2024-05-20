@@ -11,8 +11,8 @@ export function collectionToApp(dataFromServer) {
 
     for (let [key, value] of Object.entries(dataFromServer)) {
         switch (key) {
-            case "@id":
-                normolizedObj.id = value.toString();
+            case "id":
+                normolizedObj.id = Number.parseInt(value);
                 break;
             case "title":
                 normolizedObj.title = value.toString();
@@ -23,8 +23,8 @@ export function collectionToApp(dataFromServer) {
             case "image":
                 normolizedObj.image = value.toString();
                 break;
-            case "category":
-                normolizedObj.category = CATEGORIES[value + 1];
+            case "cathegory_id":
+                normolizedObj.category = CATEGORIES[Number.parseInt(value) - 1];
                 break;
             case "modifed_at":
                 normolizedObj.modifed_at = value.toString();

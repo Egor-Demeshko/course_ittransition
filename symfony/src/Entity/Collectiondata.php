@@ -6,6 +6,9 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\POST;
 use App\Repository\CollectiondataRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -23,8 +26,27 @@ use DateTimeImmutable;
         new Post(
             normalizationContext: ['groups' => ['collection:create:newitem']],
             denormalizationContext: ['groups' => ['collection:create']]
+        ),
+        new Patch(
+            normalizationContext: ['groups' => ['collection:patch:response']],
+            denormalizationContext: [
+                'groups' => ['collection:patch:write']
+            ]
         )
     ],
+    paginationItemsPerPage: 5
+)]
+#[ApiResource(
+
+    operations: [
+        new GetCollection()
+    ],
+    shortName: 'Collections Per User',
+    uriTemplate: '/users/{id}/collections',
+    uriVariables: [
+        'id' => new Link(fromClass: User::class, toProperty: 'user')
+    ],
+    normalizationContext: ['groups' => ['collections:peruser']],
     paginationItemsPerPage: 5
 )]
 class Collectiondata
@@ -32,36 +54,37 @@ class Collectiondata
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:create:newitem'])]
+    #[Groups(['collection:create:newitem', 'collections:peruser'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
-    #[Groups(['collection:create:newitem', 'collection:create'])]
+    #[Groups(['collection:create:newitem', 'collection:create', 'collections:peruser', 'collection:patch:write'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['collection:create:newitem', 'collection:create'])]
+    #[Groups(['collection:create:newitem', 'collection:create', 'collections:peruser', 'collection:patch:write'])]
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['collection:create:newitem'])]
+    #[Groups(['collection:create:newitem', 'collections:peruser'])]
     private ?int $cathegory_id;
 
     #[ORM\ManyToOne(Category::class, cascade: ['persist', 'remove'], inversedBy: 'collectionData')]
     #[ORM\JoinColumn(name: 'cathegory_id', referencedColumnName: "id", nullable: false)]
     #[Assert\Valid]
-    #[Groups(['collection:create'])]
+    #[Groups(['collection:create', 'collection:patch:write'])]
     private ?Category $cathegory = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['collections:peruser', 'collection:patch:write'])]
     private ?string $image_link = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
-    #[Groups("collection:create:newitem")]
+    #[Groups('collection:create:newitem', 'collections:peruser', 'collection:patch:response')]
     private ?\DateTimeInterface $modified_at = null;
 
     #[ORM\Column]

@@ -1,6 +1,6 @@
 /**
  * @typedef Collection
- * @property {string} id
+ * @property {number} id
  * @property {string} title
  * @property {string} description
  * @property {?string} image
@@ -60,3 +60,13 @@ export const Normolizers = "Normolizers";
  * @property {string} token
  */
 export const TokenPayload = "TokenPayload";
+
+/**
+ * Predifined reponse object with payload under data property
+ * @typedef ResponseObjWithData
+ * @property {boolean} status
+ * @property {string} success_message
+ * @property {Object[]} errors
+ * @property {{[key: string]: any}} data
+ */
+export const ResponseObjWithData = "ResponseObjWithData";
