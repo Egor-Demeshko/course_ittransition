@@ -8,11 +8,13 @@
     function update({ target }) {
         title = target.textContent;
     }
+
+    function updateDescription() {}
 </script>
 
 <div>
     <h4 contenteditable="true" on:blur|stopPropagation={update}>{title}</h4>
-    <div class="description">
+    <div class="description" on:blur|stopPropagation={updateDescription}>
         {@html description}
     </div>
 </div>

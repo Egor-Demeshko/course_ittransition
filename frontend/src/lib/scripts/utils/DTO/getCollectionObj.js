@@ -20,7 +20,7 @@ export const getFullCollectionObj = () => {
         title: "",
         description: "",
         image: "",
-        category: 1,
+        category: "",
         modifed_at: "",
         fields: [],
     };

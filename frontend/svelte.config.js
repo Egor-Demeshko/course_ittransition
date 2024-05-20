@@ -14,6 +14,9 @@ const config = {
         alias: {
             $types: "src/lib/types",
             $data: "src/lib/data",
+            $fetcher: "src/lib/scripts/fetcher",
+            $utils: "src/lib/scripts/utils",
+            $errors: "src/lib/scripts/errors",
         },
     },
 };

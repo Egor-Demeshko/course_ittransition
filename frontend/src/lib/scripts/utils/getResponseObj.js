@@ -5,3 +5,15 @@ export function getNewObj() {
         errors: [],
     };
 }
+
+/**
+ * @return {import('$types/types').ResponseObjWithData}
+ */
+export function getResponseObjWithData() {
+    return {
+        status: false,
+        success_message: "",
+        errors: [],
+        data: [],
+    };
+}

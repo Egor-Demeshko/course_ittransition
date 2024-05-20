@@ -58,4 +58,4 @@ let collections = {
 };
 
 /** */
-export const collectionsStore = writable(collections);
+export const collectionsStore = writable({});
