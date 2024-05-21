@@ -13,9 +13,9 @@
     import { createEventDispatcher } from "svelte";
 
     /** @type {?string}*/
-    export let image;
+    export let image_link;
     /** @type {?string}*/
-    export let modifed_at;
+    export let modified_at;
     /** @type {string}*/
     export let category;
 
@@ -24,17 +24,20 @@
 
 <div class="right">
     <div class="top">
-        <AddButton bind:image />
+        <AddButton {image_link} on:image_changed />
         <div class="buttons_rows">
             <div class="top_row">
                 <div class="top_row__date">
                     <p>
                         {`${LAST_MODIFIED}:`}
-                        <span>{modifed_at ? modifed_at : WAS_NOT_MODIFIED}</span
+                        <span
+                            >{modified_at
+                                ? modified_at
+                                : WAS_NOT_MODIFIED}</span
                         >
                     </p>
                 </div>
-                <SaveDelete />
+                <SaveDelete on:save_collection />
             </div>
             <div class="bottom_row">
                 <div class="bottom__buttons">

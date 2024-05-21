@@ -21,7 +21,7 @@ export function setDataFromToken(token, options = { storage: STORAGE_LOCAL }) {
         let data = decodeToken(token);
 
         setUser(data.payload);
-        saveToken(data.payload, options.storage);
+        saveToken(data.payload, options.storage, token);
 
         result = true;
     } catch (e) {
@@ -67,12 +67,15 @@ name: "test"
  * 
  * @param {?import('$types/types').TokenPayload} payload
  * @param {string} storage
+ * @param {string} tokenToSave
 
  */
-function saveToken(payload, storage) {
+function saveToken(payload, storage, tokenToSave) {
     if (!payload) {
         throw new Error("payload or token is required!");
     }
+
+    payload.token = tokenToSave;
 
     const obj = normolizeTokenDataToStorage(STORAGE_LOCAL, payload);
 
@@ -89,7 +92,7 @@ export async function refresh() {
     /** @type {{token: string}} */
     const refreshData = await request[REFRESH]();
     const { payload } = decodeToken(refreshData.token);
-    saveToken(payload, STORAGE_LOCAL);
+    saveToken(payload, STORAGE_LOCAL, refreshData.token);
 }
 
 export async function isToken(wasRefreshed = false) {

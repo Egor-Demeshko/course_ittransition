@@ -16,7 +16,6 @@
         if (data && data?.status) {
             const collections = data.data["hydra:member"] ?? null;
             if (!collections) return;
-
             collectionsStore.update((collectionMap) => {
                 if (!collections) return collectionMap;
 

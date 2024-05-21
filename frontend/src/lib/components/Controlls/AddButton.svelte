@@ -2,24 +2,29 @@
     import { AVATAR } from "$lib/data/texts.js";
     import { saveFile } from "$lib/scripts/imageupload/imageupload.js";
     import Spinner from "$lib/components/notification/Spinner.svelte";
+    import { COL_IMAGE_CHANGED } from "$lib/data/consts.js";
+    import { createEventDispatcher } from "svelte";
 
-    export let image;
+    export let image_link;
+
+    const dispatch = createEventDispatcher();
 
     let spinner = false;
 
-    async function uplooadFile({ target }) {
+    async function uploadFile({ target }) {
         spinner = true;
         const file = target.files[0];
         if (file) {
             let fileUrl = await saveFile(file);
             spinner = false;
-            image = fileUrl;
+
+            dispatch(COL_IMAGE_CHANGED, fileUrl);
         }
     }
 </script>
 
 <div class="button">
-    {#if !image}
+    {#if !image_link}
         <div class="inner">
             <div class="icon">
                 <svg
@@ -44,10 +49,10 @@
             type="file"
             name="file"
             accept="image/*"
-            on:change={uplooadFile}
+            on:change={uploadFile}
         />
     {:else}
-        <img src={image} alt="avatar" />
+        <img src={image_link} alt="avatar" />
     {/if}
     {#if spinner}
         <Spinner />

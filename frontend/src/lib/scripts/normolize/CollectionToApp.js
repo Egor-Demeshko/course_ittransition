@@ -20,14 +20,14 @@ export function collectionToApp(dataFromServer) {
             case "description":
                 normolizedObj.description = value.toString();
                 break;
-            case "image":
-                normolizedObj.image = value.toString();
+            case "image_link":
+                normolizedObj.image_link = value.toString();
                 break;
             case "cathegory_id":
                 normolizedObj.category = CATEGORIES[Number.parseInt(value) - 1];
                 break;
-            case "modifed_at":
-                normolizedObj.modifed_at = value.toString();
+            case "modified_at":
+                normolizedObj.modified_at = value.toString();
                 break;
             case "fields":
                 normolizedObj.fields = value;
