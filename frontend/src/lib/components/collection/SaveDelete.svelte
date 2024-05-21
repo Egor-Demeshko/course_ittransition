@@ -1,7 +1,13 @@
 <script>
     import Button from "$lib/components/Controlls/Button.svelte";
     import { SAVE } from "$lib/data/texts.js";
-    function onSave() {}
+    import { COL_SAVE_TIGGERED } from "$lib/data/consts.js";
+    import { createEventDispatcher } from "svelte";
+
+    const dispatch = createEventDispatcher();
+    function onSave() {
+        dispatch(COL_SAVE_TIGGERED);
+    }
 
     function onDelete() {}
 </script>

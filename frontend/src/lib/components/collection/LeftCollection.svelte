@@ -9,12 +9,19 @@
         title = target.textContent;
     }
 
-    function updateDescription() {}
+    function updateDescription({ target }) {
+        description = "";
+        description = target.textContent;
+    }
 </script>
 
 <div>
     <h4 contenteditable="true" on:blur|stopPropagation={update}>{title}</h4>
-    <div class="description" on:blur|stopPropagation={updateDescription}>
+    <div
+        contenteditable="true"
+        class="description"
+        on:blur|stopPropagation={updateDescription}
+    >
         {@html description}
     </div>
 </div>
@@ -32,15 +39,23 @@
         font-size: clamp(1.5rem, 2.1vw, 1.7rem);
         line-height: 1.18;
         font-weight: normal;
-        border: 2px solid transparent;
-        transition: border 0.4s ease;
-        border-radius: 4px;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    h4:hover {
+    h4,
+    .description {
+        border: 2px solid transparent;
+        transition: border 0.4s ease;
+        border-radius: 4px;
+        cursor: text;
+    }
+
+    h4:hover,
+    .description:hover,
+    h4:focus,
+    .description:focus {
         border: 2px solid var(--border-active);
     }
 

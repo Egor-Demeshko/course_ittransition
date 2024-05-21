@@ -17,6 +17,7 @@ const config = {
             $fetcher: "src/lib/scripts/fetcher",
             $utils: "src/lib/scripts/utils",
             $errors: "src/lib/scripts/errors",
+            $normolizers: "src/lib/scripts/normolize",
         },
     },
 };

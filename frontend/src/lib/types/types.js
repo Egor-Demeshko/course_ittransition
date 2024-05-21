@@ -3,9 +3,9 @@
  * @property {number} id
  * @property {string} title
  * @property {string} description
- * @property {?string} image
+ * @property {?string} image_link
  * @property {string} category
- * @property {?string} modifed_at
+ * @property {?string} modified_at
  * @property {Array<{label: string, type: string}>} fields - dynamic fields of collection, can be added bu user
  */
 export const Collection = "Collection";

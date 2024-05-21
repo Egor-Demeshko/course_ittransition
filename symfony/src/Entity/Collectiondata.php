@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\POST;
+use ApiPlatform\Metadata\Put;
 use App\Repository\CollectiondataRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Doctrine\DBAL\Types\Types;
@@ -27,7 +28,7 @@ use DateTimeImmutable;
             normalizationContext: ['groups' => ['collection:create:newitem']],
             denormalizationContext: ['groups' => ['collection:create']]
         ),
-        new Patch(
+        new PATCH(
             normalizationContext: ['groups' => ['collection:patch:response']],
             denormalizationContext: [
                 'groups' => ['collection:patch:write']
@@ -68,7 +69,7 @@ class Collectiondata
 
     #[ORM\Column]
     #[Groups(['collection:create:newitem', 'collections:peruser'])]
-    private ?int $cathegory_id;
+    private ?int $cathegory_id = null;
 
     #[ORM\ManyToOne(Category::class, cascade: ['persist', 'remove'], inversedBy: 'collectionData')]
     #[ORM\JoinColumn(name: 'cathegory_id', referencedColumnName: "id", nullable: false)]
@@ -84,7 +85,7 @@ class Collectiondata
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
-    #[Groups('collection:create:newitem', 'collections:peruser', 'collection:patch:response')]
+    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:patch:response'])]
     private ?\DateTimeInterface $modified_at = null;
 
     #[ORM\Column]
@@ -148,7 +149,7 @@ class Collectiondata
         return $this;
     }
 
-    public function getCathegoryId(): ?string
+    public function getCathegoryId(): ?int
     {
         return $this->cathegory_id;
     }

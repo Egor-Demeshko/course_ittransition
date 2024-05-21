@@ -35,6 +35,5 @@ function local(payload) {
             : obj.token.toString();
 
     obj.exp = +payload.exp;
-
     return obj;
 }
