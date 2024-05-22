@@ -12,13 +12,19 @@ export async function collectionsPerUser(user_id) {
         "Content-Type": "application/ld+json",
     };
 
-    const result = await request(
-        `http://server/api/${USER}/${user_id}/${COLLECTIONS_PER_USER}?page=1`,
-        options
-    );
-    if (result.ok) {
-        return await result.json();
-    } else {
-        throw new CollectionsGetError(errorsmap[USER][COLLECTIONS_PER_USER]);
+    try {
+        const result = await request(
+            `http://server/api/${USER}/${user_id}/${COLLECTIONS_PER_USER}?page=1`,
+            options
+        );
+        if (result.ok) {
+            return await result.json();
+        } else {
+            throw new CollectionsGetError(
+                errorsmap[USER][COLLECTIONS_PER_USER]
+            );
+        }
+    } catch (e) {
+        console.log(e.message);
     }
 }

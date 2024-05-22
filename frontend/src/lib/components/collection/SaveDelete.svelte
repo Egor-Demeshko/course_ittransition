@@ -1,7 +1,10 @@
 <script>
     import Button from "$lib/components/Controlls/Button.svelte";
     import { SAVE } from "$lib/data/texts.js";
-    import { COL_SAVE_TIGGERED } from "$lib/data/consts.js";
+    import {
+        COL_SAVE_TIGGERED,
+        COL_DELETE_TRIGGERED,
+    } from "$lib/data/consts.js";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -9,7 +12,9 @@
         dispatch(COL_SAVE_TIGGERED);
     }
 
-    function onDelete() {}
+    function onDelete() {
+        dispatch(COL_DELETE_TRIGGERED);
+    }
 </script>
 
 <div>

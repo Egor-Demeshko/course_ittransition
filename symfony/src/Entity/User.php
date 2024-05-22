@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $last_loggined_at = null;
 
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Collectiondata::class, cascade: ['persist'],)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CollectionData::class, cascade: ['persist'],)]
     #[Groups(['user:read'])]
     private Collection $collectionData;
 
