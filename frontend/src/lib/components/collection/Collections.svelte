@@ -18,15 +18,17 @@
             if (!collections) return;
             collectionsStore.update((collectionMap) => {
                 if (!collections) return collectionMap;
+                /**@type {Record<string, (import('$types/types').Collection)>}*/
+                const newCollectionMap = {};
 
                 collections.forEach((collectionRaw) => {
                     if (collectionRaw) {
                         const collect = collectionToApp(collectionRaw);
-                        collectionMap[collect.id] = collect;
+                        newCollectionMap[collect.id] = collect;
                     }
                 });
 
-                return { ...collectionMap };
+                return { ...newCollectionMap };
             });
         } else {
             addNotification(errorNotificationType, "Error on api request.");
@@ -36,12 +38,25 @@
     collectionsStore.subscribe((data) => {
         collections = data;
     });
+
+    function deleteCollectionFromPull({ detail }) {
+        collectionsStore.update((collections) => {
+            const newCollection = { ...collections };
+            // @ts-ignore
+            delete newCollection[detail];
+
+            return newCollection;
+        });
+    }
 </script>
 
 <div>
     {#key collections}
         {#each Object.values(collections) as collection}
-            <SingleCollection {collection} />
+            <SingleCollection
+                {collection}
+                on:collection_was_deleted={deleteCollectionFromPull}
+            />
         {/each}
     {/key}
 </div>

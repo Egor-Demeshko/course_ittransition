@@ -1,6 +1,7 @@
 import { collectionCreate } from "$lib/scripts/fetcher/collection/collectionCreate.js";
 import { collectionsPerUser } from "$fetcher/collection/collectionsPerUser.js";
 import { collectionUpdate } from "$fetcher/collection/collectionUpdate.js";
+import { collectionDelete } from "$fetcher/collection/collectionDelete.js";
 
 /**API **/
 /**@type {string} */
@@ -10,6 +11,7 @@ export const CATHEGORY = "categories";
 export const USER = "users";
 export const COLLECTIONS_PER_USER = "collections";
 export const UPDATE = "update";
+export const DELETE = "delete";
 /**
  * @type {import('$types/types').RequestMap}
  */
@@ -23,6 +25,7 @@ const errors = {};
 obj[COLLECTION] = {};
 obj[COLLECTION][CREATE] = collectionCreate;
 obj[COLLECTION][UPDATE] = collectionUpdate;
+obj[COLLECTION][DELETE] = collectionDelete;
 
 obj[USER] = {};
 obj[USER][COLLECTIONS_PER_USER] = collectionsPerUser;

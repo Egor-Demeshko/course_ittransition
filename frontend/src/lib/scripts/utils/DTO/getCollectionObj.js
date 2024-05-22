@@ -16,12 +16,12 @@ export const getCollectionObj = () => {
  */
 export const getFullCollectionObj = () => {
     return {
-        id: "",
+        id: 0,
         title: "",
         description: "",
-        image: "",
+        image_link: "",
         category: "",
-        modifed_at: "",
+        modified_at: "",
         fields: [],
     };
 };

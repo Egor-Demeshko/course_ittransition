@@ -37,7 +37,7 @@
                         >
                     </p>
                 </div>
-                <SaveDelete on:save_collection />
+                <SaveDelete on:save_collection on:delete_collection />
             </div>
             <div class="bottom_row">
                 <div class="bottom__buttons">

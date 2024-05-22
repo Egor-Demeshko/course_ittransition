@@ -2,12 +2,19 @@
     import LeftCollection from "$lib/components/collection/LeftCollection.svelte";
     import RightCollection from "$lib/components/collection/RightCollection.svelte";
     import Fields from "$lib/components/collection/Fields.svelte";
-    import { ENTER_NAME, CATEGORIES, COLLECTION_ID } from "$lib/data/texts.js";
+    import {
+        ENTER_NAME,
+        CATEGORIES,
+        COLLECTION_ID,
+        GENERAL_ERROR,
+        COLLECTION_DELETED as COLLECTION_DELETED_TEXT,
+    } from "$lib/data/texts.js";
     import {
         apimap,
         COLLECTION,
         UPDATE,
         CATHEGORY,
+        DELETE,
     } from "$lib/scripts/fetcher/apimap.js";
     import { isToken } from "$lib/scripts/token/token.js";
     import {
@@ -16,16 +23,21 @@
     } from "$lib/scripts/storages/storages";
     import { RefreshTokenError } from "$lib/scripts/errors/RefreshTokenError.js";
     import { SaveError } from "$lib/scripts/errors/SaveError.js";
+    import { DeleteError } from "$errors/DeleteError.js";
     import {
         addNotification,
         errorNotificationType,
         successNotificationType,
     } from "$lib/components/notification/notification.js";
+    import { createEventDispatcher } from "svelte";
+    import { COLLECTION_DELETED } from "$data/consts.js";
 
     /**
      * @type {import('$types/types.js').Collection}
      */
     export let collection;
+
+    const dispatch = createEventDispatcher();
 
     let { id, title, description, image_link, modified_at, fields, category } =
         collection;
@@ -81,6 +93,35 @@
         } catch (e) {
             if (e instanceof RefreshTokenError || e instanceof SaveError) {
                 addNotification(errorNotificationType, e.message);
+            } else {
+                console.error(e);
+                addNotification(errorNotificationType, GENERAL_ERROR);
+            }
+        }
+    }
+
+    async function deleteCollection() {
+        try {
+            if (await isToken()) {
+                const dataFromStorage = getDataFromStorage(STORAGE_LOCAL);
+                if (!dataFromStorage) return;
+                const token = JSON.parse(dataFromStorage)["token"];
+
+                const result = await apimap[COLLECTION][DELETE](id, token);
+                if (result) {
+                    addNotification(
+                        successNotificationType,
+                        COLLECTION_DELETED_TEXT
+                    );
+                    dispatch(COLLECTION_DELETED, id);
+                }
+            }
+        } catch (e) {
+            if (e instanceof RefreshTokenError || e instanceof DeleteError) {
+                addNotification(errorNotificationType, e.message);
+            } else {
+                console.error(e);
+                addNotification(errorNotificationType, GENERAL_ERROR);
             }
         }
     }
@@ -99,13 +140,14 @@
             on:col_field_added={addField}
             on:save_collection={saveCollection}
             on:image_changed={setImage}
+            on:delete_collection={deleteCollection}
         />
         <hr />
         {#if fields}
             <Fields {fields} />
         {/if}
     </div>
-    <span>{COLLECTION_ID}: ${id}</span>
+    <span>{COLLECTION_ID}: {id}</span>
 </section>
 
 <hr style="margin: 0" />

@@ -15,4 +15,6 @@ export const COL_FIELD_CHANGED = "col_field_changed";
 export const COL_TITLE_CHANGED = "col_title_changed";
 export const COL_DESCRIPTION_CHANGED = "col_description_changed";
 export const COL_SAVE_TIGGERED = "save_collection";
+export const COL_DELETE_TRIGGERED = "delete_collection";
 export const COL_IMAGE_CHANGED = "image_changed";
+export const COLLECTION_DELETED = "collection_was_deleted";

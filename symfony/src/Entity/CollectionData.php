@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
@@ -28,17 +29,17 @@ use DateTimeImmutable;
             normalizationContext: ['groups' => ['collection:create:newitem']],
             denormalizationContext: ['groups' => ['collection:create']]
         ),
-        new PATCH(
+        new Patch(
             normalizationContext: ['groups' => ['collection:patch:response']],
             denormalizationContext: [
                 'groups' => ['collection:patch:write']
             ]
-        )
+        ),
+        new Delete()
     ],
     paginationItemsPerPage: 5
 )]
 #[ApiResource(
-
     operations: [
         new GetCollection()
     ],
@@ -50,7 +51,7 @@ use DateTimeImmutable;
     normalizationContext: ['groups' => ['collections:peruser']],
     paginationItemsPerPage: 5
 )]
-class Collectiondata
+class CollectionData
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -71,7 +72,7 @@ class Collectiondata
     #[Groups(['collection:create:newitem', 'collections:peruser'])]
     private ?int $cathegory_id = null;
 
-    #[ORM\ManyToOne(Category::class, cascade: ['persist', 'remove'], inversedBy: 'collectionData')]
+    #[ORM\ManyToOne(Category::class, cascade: ['persist'], inversedBy: 'collectionData')]
     #[ORM\JoinColumn(name: 'cathegory_id', referencedColumnName: "id", nullable: false)]
     #[Assert\Valid]
     #[Groups(['collection:create', 'collection:patch:write'])]
@@ -91,7 +92,7 @@ class Collectiondata
     #[ORM\Column]
     private ?int $user_id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'collectionData')]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'collectionData')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     #[Groups(['collection:create:newitem', 'collection:create'])]
     private ?User $user = null;
