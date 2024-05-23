@@ -11,6 +11,10 @@
     export let type = "";
     /** @type {?number}*/
     export let orderId = null;
+    /**@type {number}*/
+    export let id;
+    /**@type {number}*/
+    export let field_data_id;
 
     function deleteField() {
         dispatch(COL_FIELD_REMOVED, orderId);

@@ -18,6 +18,7 @@ const config = {
             $utils: "src/lib/scripts/utils",
             $errors: "src/lib/scripts/errors",
             $normolizers: "src/lib/scripts/normolize",
+            $utils: "src/lib/scripts/utils",
         },
     },
 };

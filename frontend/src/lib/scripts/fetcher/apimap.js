@@ -2,12 +2,14 @@ import { collectionCreate } from "$lib/scripts/fetcher/collection/collectionCrea
 import { collectionsPerUser } from "$fetcher/collection/collectionsPerUser.js";
 import { collectionUpdate } from "$fetcher/collection/collectionUpdate.js";
 import { collectionDelete } from "$fetcher/collection/collectionDelete.js";
+import { additionalFieldCreate } from "$fetcher/additionalField/additionalFieldCreate.js";
 
 /**API **/
 /**@type {string} */
 export const COLLECTION = "collections";
 export const CREATE = "create";
 export const CATHEGORY = "categories";
+export const ADDITIONAL_FIELD = "additional_fields";
 export const USER = "users";
 export const COLLECTIONS_PER_USER = "collections";
 export const UPDATE = "update";
@@ -26,6 +28,10 @@ obj[COLLECTION] = {};
 obj[COLLECTION][CREATE] = collectionCreate;
 obj[COLLECTION][UPDATE] = collectionUpdate;
 obj[COLLECTION][DELETE] = collectionDelete;
+
+/** additional fields */
+obj[ADDITIONAL_FIELD] = {};
+obj[ADDITIONAL_FIELD][CREATE] = additionalFieldCreate;
 
 obj[USER] = {};
 obj[USER][COLLECTIONS_PER_USER] = collectionsPerUser;

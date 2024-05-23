@@ -29,7 +29,7 @@ export function collectionToApp(dataFromServer) {
             case "modified_at":
                 normolizedObj.modified_at = value.toString();
                 break;
-            case "fields":
+            case "additionalFields":
                 normolizedObj.fields = value;
                 break;
         }
