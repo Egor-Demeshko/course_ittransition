@@ -4,6 +4,7 @@
     import { COL_FIELD_REMOVED, COL_FIELD_CHANGED } from "$lib/data/consts.js";
     import Delete from "$lib/components/Controlls/Delete.svelte";
     import { createEventDispatcher } from "svelte";
+    import Spinner from "$notification/Spinner.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -11,6 +12,15 @@
     export let type = "";
     /** @type {?number}*/
     export let orderId = null;
+    /**@type {number}*/
+    export let id;
+    /**@type {number}*/
+    export let field_data_id;
+
+    /**
+     * @type {boolean} - used to disable buttons mostly on api request
+     */
+    let disableButtons = false;
 
     function deleteField() {
         dispatch(COL_FIELD_REMOVED, orderId);
@@ -18,11 +28,33 @@
 
     function setType(e) {
         if (e.detail) {
-            dispatch(COL_FIELD_CHANGED, {
-                type: e.detail.toLowerCase(),
-                orderId,
-            });
+            type = e.detail;
         }
+        if (type) {
+            sendEvent();
+        }
+    }
+
+    function setLabel({ target }) {
+        label = target.textContent;
+        if (label === "" || label) {
+            sendEvent();
+        }
+    }
+
+    function sendEvent() {
+        disableButtons = true;
+        dispatch(COL_FIELD_CHANGED, {
+            type,
+            label,
+            field_id: id,
+            orderId,
+            unBlockButtons,
+        });
+    }
+
+    function unBlockButtons() {
+        disableButtons = false;
     }
 </script>
 
@@ -30,7 +62,11 @@
     <div class="field__controlls">
         <p class="field__label">{ADDITIONAL_FIELD}</p>
         <div class="dropdown">
-            <span class="dropdown__label" contenteditable={true}>{label}</span>
+            <span
+                class="dropdown__label"
+                contenteditable={true}
+                on:blur={setLabel}>{label}</span
+            >
             <DropDown
                 on:dropdown_changed={setType}
                 choosen_option={type}
@@ -42,6 +78,9 @@
     <div class="field__delete">
         <Delete clickHandler={deleteField} />
     </div>
+    {#if disableButtons}
+        <Spinner />
+    {/if}
 </div>
 
 <style>
@@ -55,6 +94,7 @@
         width: 100%;
         justify-content: space-between;
         gap: 1rem;
+        position: relative;
     }
 
     .field:hover {

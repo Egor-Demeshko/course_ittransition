@@ -17,8 +17,8 @@ export async function collectionUpdate(id, body, token) {
         headers: {
             "Content-Type": "application/merge-patch+json",
             Authorization: `Bearer ${token}`,
-            credentials: "omit",
         },
+        credentials: "omit",
         body,
     };
     const result = await request(`${apiRoute}/${COLLECTION}/${id}`, options);

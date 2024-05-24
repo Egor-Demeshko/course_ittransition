@@ -16,6 +16,11 @@ export let protocol =
     globalThis?.location?.protocol === "https:" ? "https:" : "http:";
 export let baseRoute = `${protocol}//${PUBLIC_API_ORIGIN}`;
 export let apiRoute = `${baseRoute}/api`;
+/**
+ * This two used to different routes for request functions that used both on server and front
+ */
+export let FRONT_TYPE = "front";
+export let SERVER_TYPE = "server";
 
 /**
  * @type {Record<string, function>}

@@ -26,13 +26,6 @@ export const CollectionDTO = "CollectionDTO";
 export const Collections = "Collections";
 
 /**
- * @typedef Field
- * @property {string} label
- * @property {string} type
- */
-export const Field = "Field";
-
-/**
  * @typedef RequestMap
  * @type {{[key: string]: {[key: string]: Function}}}
  * @description store all methods to api request
@@ -70,3 +63,14 @@ export const TokenPayload = "TokenPayload";
  * @property {{[key: string]: any}} data
  */
 export const ResponseObjWithData = "ResponseObjWithData";
+
+/**
+ * Object that contains data for additional field in a collection
+ * @typedef AdditionalFieldLink
+ * @property {number} id
+ * @property {number} field_data_id
+ * @property {string} type
+ * @property {string} label
+ *
+ */
+export const AdditionalFieldLink = "AdditionalFieldLink";

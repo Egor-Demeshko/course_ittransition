@@ -8,6 +8,7 @@
         COLLECTION_ID,
         GENERAL_ERROR,
         COLLECTION_DELETED as COLLECTION_DELETED_TEXT,
+        ADDITIONAL_FIELD_ADDED,
     } from "$lib/data/texts.js";
     import {
         apimap,
@@ -15,6 +16,8 @@
         UPDATE,
         CATHEGORY,
         DELETE,
+        ADDITIONAL_FIELD,
+        CREATE,
     } from "$lib/scripts/fetcher/apimap.js";
     import { isToken } from "$lib/scripts/token/token.js";
     import {
@@ -24,13 +27,16 @@
     import { RefreshTokenError } from "$lib/scripts/errors/RefreshTokenError.js";
     import { SaveError } from "$lib/scripts/errors/SaveError.js";
     import { DeleteError } from "$errors/DeleteError.js";
+    import { AdditionalFieldError } from "$errors/AdditionalFieldError.js";
+    import { NormalizationError } from "$errors/NormalizationError.js";
     import {
         addNotification,
         errorNotificationType,
         successNotificationType,
     } from "$lib/components/notification/notification.js";
-    import { createEventDispatcher } from "svelte";
     import { COLLECTION_DELETED } from "$data/consts.js";
+    import { additionalFieldToApp } from "$normolizers/additionalfieldToApp";
+    import { createEventDispatcher } from "svelte";
 
     /**
      * @type {import('$types/types.js').Collection}
@@ -46,8 +52,40 @@
         category = detail;
     }
 
-    function addField() {
-        fields = [...fields, { label: ENTER_NAME, type: "string" }];
+    async function addField() {
+        try {
+            if (await isToken()) {
+                const dataFromStorage = getDataFromStorage(STORAGE_LOCAL);
+                if (!dataFromStorage) return;
+                const token = JSON.parse(dataFromStorage)["token"];
+
+                const result = await apimap[ADDITIONAL_FIELD][CREATE](
+                    id,
+                    token
+                );
+                if (result) {
+                    addNotification(
+                        successNotificationType,
+                        ADDITIONAL_FIELD_ADDED
+                    );
+
+                    const receivedObj = additionalFieldToApp(result);
+
+                    fields = [receivedObj, ...fields];
+                }
+            }
+        } catch (e) {
+            if (
+                e instanceof RefreshTokenError ||
+                e instanceof AdditionalFieldError ||
+                e instanceof NormalizationError
+            ) {
+                addNotification(errorNotificationType, e.message);
+            } else {
+                addNotification(errorNotificationType, GENERAL_ERROR);
+            }
+            console.error(e);
+        }
     }
 
     function setImage({ detail }) {

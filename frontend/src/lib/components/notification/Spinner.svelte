@@ -21,10 +21,10 @@
         height: 100%;
         box-sizing: border-box;
         background-color: #10120f42;
-        border-radius: 25px 25px 0 0;
+        border-radius: 10px;
     }
     .loader_wr.is_modal {
-        border-radius: 25px;
+        border-radius: 0;
     }
     .loader {
         position: absolute;

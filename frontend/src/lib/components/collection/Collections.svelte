@@ -1,6 +1,9 @@
 <script>
     import SingleCollection from "$lib/components/collection/SingleCollection.svelte";
-    import { collectionsStore } from "$lib/scripts/collections/collectionsStore";
+    import {
+        collectionsStore,
+        updateCollectionStore,
+    } from "$collections/collectionsStore";
     import { collectionToApp } from "$lib/scripts/normolize/CollectionToApp.js";
     import { page } from "$app/stores";
     import {
@@ -17,21 +20,10 @@
             const collections = data.data["hydra:member"] ?? null;
             if (!collections) return;
             collectionsStore.update((collectionMap) => {
-                if (!collections) return collectionMap;
-                /**@type {Record<string, (import('$types/types').Collection)>}*/
-                const newCollectionMap = {};
-
-                collections.forEach((collectionRaw) => {
-                    if (collectionRaw) {
-                        const collect = collectionToApp(collectionRaw);
-                        newCollectionMap[collect.id] = collect;
-                    }
-                });
-
-                return { ...newCollectionMap };
+                return updateCollectionStore(collectionMap, collections);
             });
         } else {
-            addNotification(errorNotificationType, "Error on api request.");
+            addNotification(errorNotificationType, "Error on data parse.");
         }
     });
 

@@ -18,6 +18,12 @@ const config = {
             $utils: "src/lib/scripts/utils",
             $errors: "src/lib/scripts/errors",
             $normolizers: "src/lib/scripts/normolize",
+            $utils: "src/lib/scripts/utils",
+            $token: "src/lib/scripts/token",
+            $storage: "src/lib/scripts/storages",
+            $notification: "src/lib/components/notification",
+            $components: "src/lib/components",
+            $collections: "src/lib/scripts/collections",
         },
     },
 };

@@ -19,12 +19,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Category;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity(repositoryClass: CollectiondataRepository::class)]
 #[ORM\Table(name: 'collection_data')]
 #[ApiResource(
     shortName: "Collection",
     operations: [
+        new Get(),
         new Post(
             normalizationContext: ['groups' => ['collection:create:newitem']],
             denormalizationContext: ['groups' => ['collection:create']]
@@ -97,9 +101,14 @@ class CollectionData
     #[Groups(['collection:create:newitem', 'collection:create'])]
     private ?User $user = null;
 
+    #[OneToMany(targetEntity: AdditionalFieldLink::class, mappedBy: 'collection', cascade: ["persist"])]
+    #[Groups(['collection:patch:write', 'collections:peruser'])]
+    private Collection $additionalFields;
+
     public function __construct()
     {
         $this->created_at = new DateTimeImmutable('now');
+        $this->additionalFields = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,6 +225,32 @@ class CollectionData
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAdditionalFields(): ?Collection
+    {
+        return $this->additionalFields;
+    }
+
+    public function addAdditionalFields(AdditionalFieldLink $link): static
+    {
+        if (!$this->additionalFields->contains($link)) {
+            $this->additionalFields->add($link);
+            $link->setCollection($this);
+        }
+        return $this;
+    }
+
+    public function removeAdditionalFields(AdditionalFieldLink $link): static
+    {
+        $id = $link->getId();
+        if ($this->additionalFields->remove($id)) {
+            if ($link->getCollection() === $this) {
+                $link->setCollection(null);
+            }
+        }
 
         return $this;
     }

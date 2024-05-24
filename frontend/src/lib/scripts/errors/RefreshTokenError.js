@@ -1,5 +1,6 @@
 export class RefreshTokenError extends Error {
     constructor() {
-        super("Error during refreshing token request!");
+        super("Authorized request error! Try reload page!");
+        this.name = "RefreshTokenError";
     }
 }
