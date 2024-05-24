@@ -1,11 +1,12 @@
 <script>
     import TopSideBar from "$lib/components/TopSideBar.svelte";
     import Form from "$lib/components/Form.svelte";
+    import Paginator from "$components/Paginator.svelte";
     import { exportformFields } from "$lib/data/fields.js";
     import { REGISTER, LOGIN } from "$lib/data/consts.js";
     import Notification from "$lib/components/notification/Notification.svelte";
     import { isLoggined } from "$lib/scripts/login/isLoggined.js";
-    import { goto, onNavigate } from "$app/navigation";
+    import { onNavigate } from "$app/navigation";
     import { onMount } from "svelte";
 
     let triggered = false;
@@ -30,6 +31,7 @@
 
 <slot></slot>
 
+<Paginator />
 <Form data={exportformFields[LOGIN]} />
 <Form data={exportformFields[REGISTER]} />
 <Notification />

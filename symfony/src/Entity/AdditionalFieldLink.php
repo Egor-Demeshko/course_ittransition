@@ -21,8 +21,15 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Post(
             denormalizationContext: ['groups' => ['additionalfield:create']]
         ),
-        // new Patch(),
-        // new Delete()
+        new Patch(
+            denormalizationContext: ['groups' => ['additionalfield:patch:write']],
+            normalizationContext: ['groups' => ['additionalfield:patch:response']],
+            uriTemplate: 'additional_fields/{id}'
+        ),
+        new Delete(
+            uriTemplate: 'additional_fields/{id}'
+        )
+
     ],
 )]
 class AdditionalFieldLink
@@ -30,7 +37,7 @@ class AdditionalFieldLink
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:patch:write', 'collections:peruser'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:delete'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: CollectionData::class, inversedBy: 'additionalFields')]
@@ -40,7 +47,7 @@ class AdditionalFieldLink
 
     #[ORM\OneToOne(cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write'])]
     private ?AdditionalFieldData $field_data = null;
 
     public function getId(): ?int
