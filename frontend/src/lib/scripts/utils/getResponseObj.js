@@ -1,3 +1,7 @@
+/**
+ *
+ * @returns {{ status: boolean, success_message: string, errors: {field: ?string, message: string}[] }}
+ */
 export function getNewObj() {
     return {
         status: false,

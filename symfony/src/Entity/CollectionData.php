@@ -28,7 +28,9 @@ use Doctrine\ORM\Mapping\OneToMany;
 #[ApiResource(
     shortName: "Collection",
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['collection:get:single']]
+        ),
         new Post(
             normalizationContext: ['groups' => ['collection:create:newitem']],
             denormalizationContext: ['groups' => ['collection:create']]
@@ -60,12 +62,18 @@ class CollectionData
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:create:newitem', 'collections:peruser'])]
+    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:get:single'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
-    #[Groups(['collection:create:newitem', 'collection:create', 'collections:peruser', 'collection:patch:write'])]
+    #[Groups([
+        'collection:create:newitem',
+        'collection:create',
+        'collections:peruser',
+        'collection:patch:write',
+        'collection:get:single',
+    ])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -83,14 +91,19 @@ class CollectionData
     private ?Category $cathegory = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['collections:peruser', 'collection:patch:write'])]
+    #[Groups(['collections:peruser', 'collection:patch:write', 'collection:get:single'])]
     private ?string $image_link = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
-    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:patch:response'])]
+    #[Groups([
+        'collection:create:newitem',
+        'collections:peruser',
+        'collection:patch:response',
+        'collection:get:single'
+    ])]
     private ?\DateTimeInterface $modified_at = null;
 
     #[ORM\Column]
@@ -102,13 +115,21 @@ class CollectionData
     private ?User $user = null;
 
     #[OneToMany(targetEntity: AdditionalFieldLink::class, mappedBy: 'collection', cascade: ["persist"])]
-    #[Groups(['collection:patch:write', 'collections:peruser'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'collection:get:single'])]
     private Collection $additionalFields;
+
+    /**
+     * @var Collection<int, Item>
+     */
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'collection')]
+    #[Groups(['collection:get:single'])]
+    private Collection $items;
 
     public function __construct()
     {
         $this->created_at = new DateTimeImmutable('now');
         $this->additionalFields = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -249,6 +270,36 @@ class CollectionData
         if ($this->additionalFields->remove($id)) {
             if ($link->getCollection() === $this) {
                 $link->setCollection(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Item>
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): static
+    {
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->setCollection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): static
+    {
+        if ($this->items->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getCollection() === $this) {
+                $item->setCollection(null);
             }
         }
 

@@ -53,6 +53,12 @@
         />
     {:else}
         <img src={image_link} alt="avatar" />
+        <input
+            type="file"
+            name="file"
+            accept="image/*"
+            on:change={uploadFile}
+        />
     {/if}
     {#if spinner}
         <Spinner />
@@ -88,6 +94,7 @@
         bottom: 0;
         width: 100%;
         opacity: 0;
+        cursor: pointer;
     }
 
     .label {
@@ -103,5 +110,11 @@
         width: 100%;
         height: 100%;
         border-radius: 10px;
+        opacity: 1;
+        transition: opacity 0.4s ease;
+    }
+
+    .button:hover img {
+        opacity: 0.8;
     }
 </style>

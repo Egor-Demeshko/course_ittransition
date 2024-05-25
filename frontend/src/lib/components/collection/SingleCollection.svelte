@@ -9,6 +9,7 @@
         GENERAL_ERROR,
         COLLECTION_DELETED as COLLECTION_DELETED_TEXT,
         ADDITIONAL_FIELD_ADDED,
+        GO_TO_COLLECTION,
     } from "$lib/data/texts.js";
     import {
         apimap,
@@ -37,6 +38,8 @@
     import { COLLECTION_DELETED } from "$data/consts.js";
     import { additionalFieldToApp } from "$normolizers/additionalfieldToApp";
     import { createEventDispatcher } from "svelte";
+    import Button from "$components/Controlls/Button.svelte";
+    import { goto } from "$app/navigation";
 
     /**
      * @type {import('$types/types.js').Collection}
@@ -188,7 +191,12 @@
     <span>{COLLECTION_ID}: {id}</span>
 </section>
 
-<hr style="margin: 0" />
+<Button
+    text={GO_TO_COLLECTION}
+    clickHandler={() => goto(`/single-collection/${id}`)}
+/>
+
+<hr style="margin-top: 1rem" />
 
 <style>
     section {

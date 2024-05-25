@@ -24,6 +24,7 @@ const config = {
             $notification: "src/lib/components/notification",
             $components: "src/lib/components",
             $collections: "src/lib/scripts/collections",
+            $items: "src/lib/scripts/items",
         },
     },
 };
