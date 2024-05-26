@@ -6,20 +6,53 @@
         YOU_HAVE,
         ITEMS_SELECTED,
         SELECT_ALL_ITEMS,
+        DESELECT_ALL,
         DELETE_SELECTED,
     } from "$data/texts.js";
+    import { deleteSelectedItems } from "$items/deleteSelectedItems.js";
 
-    let items_quantity = 1;
+    export let collection_id = 0;
+
+    let items_quantity = 0;
+
+    checkboxes.subscribe((data) => {
+        items_quantity = 0;
+        for (let item of Object.values(data)) {
+            if (item.selected) {
+                items_quantity++;
+            }
+        }
+    });
+
+    let active = false;
+    let deleteButtonBlockState = false;
+
+    async function deleteSelected(e) {
+        if (deleteButtonBlockState) return;
+        deleteButtonBlockState = true;
+        await deleteSelectedItems(e, collection_id);
+        deleteButtonBlockState = false;
+    }
 
     function selectAll() {
-        checkboxes.update((data) => {
-            for (let checkObj of Object.values(data)) {
-                checkObj.selected = true;
-            }
-            return data;
-        });
+        if (active) {
+            checkboxes.update((data) => {
+                for (let checkObj of Object.values(data)) {
+                    checkObj.selected = false;
+                }
+                return data;
+            });
+            active = false;
+        } else {
+            checkboxes.update((data) => {
+                for (let checkObj of Object.values(data)) {
+                    checkObj.selected = true;
+                }
+                return data;
+            });
+            active = true;
+        }
     }
-    function DeleteSelected() {}
 </script>
 
 <div class="items_header">
@@ -40,12 +73,12 @@
                     fill="currentColor"
                 />
             </svg>
-            <span slot="text">{SELECT_ALL_ITEMS}</span>
+            <span slot="text">{active ? DESELECT_ALL : SELECT_ALL_ITEMS}</span>
         </ButtonWithIcon>
     </div>
 
     <div class="button_wrapper">
-        <ButtonWithIcon clickHandler={DeleteSelected} style={DANGER}>
+        <ButtonWithIcon clickHandler={deleteSelected} style={DANGER}>
             <svg
                 slot="icon"
                 width="18"
@@ -63,15 +96,13 @@
         </ButtonWithIcon>
     </div>
 
-    {#if items_quantity}
-        <div class="text">
-            <p>
-                {YOU_HAVE}
-                {items_quantity}
-                {ITEMS_SELECTED}
-            </p>
-        </div>
-    {/if}
+    <div class="text">
+        <p>
+            {YOU_HAVE}
+            {items_quantity}
+            {ITEMS_SELECTED}
+        </p>
+    </div>
 </div>
 
 <style>

@@ -11,7 +11,9 @@
 </script>
 
 <div class="item">
-    {#each Object.values(items) as item}
-        <SingleItem {item} />
-    {/each}
+    {#key items}
+        {#each Object.values(items) as item}
+            <SingleItem {item} />
+        {/each}
+    {/key}
 </div>

@@ -1,5 +1,6 @@
 <script>
     export let text = "";
+    /** @type {Function}*/
     export let clickHandler = () => {};
     export let style = "primary";
     export let size = "normal";

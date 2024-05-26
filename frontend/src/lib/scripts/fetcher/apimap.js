@@ -7,6 +7,9 @@ import { additionalFieldDelete } from "$fetcher/additionalField/additionalFieldD
 import { additionalFieldUpdate } from "$fetcher/additionalField/additionalFieldUpdate.js";
 import { collectionSingle } from "$fetcher/collection/collectionSingle.js";
 import { itemCreate } from "$fetcher/item/itemCreate.js";
+import { deleteItemsOnCollection } from "./collection/deleteItemsOnCollection";
+import { deleteSingleItemRequest } from "./item/deleteSingleItemRequest";
+import { itemUpdateData } from "./item/itemUpdateData";
 
 /**API **/
 /**@type {string} */
@@ -20,6 +23,7 @@ export const UPDATE = "update";
 export const DELETE = "delete";
 export const SINGLE = "single";
 export const ITEM = "items";
+export const DELETE_ITEMS = "delete_items_on_collections";
 /**
  * @type {import('$types/types').RequestMap}
  */
@@ -35,6 +39,7 @@ obj[COLLECTION][CREATE] = collectionCreate;
 obj[COLLECTION][UPDATE] = collectionUpdate;
 obj[COLLECTION][DELETE] = collectionDelete;
 obj[COLLECTION][SINGLE] = collectionSingle;
+obj[COLLECTION][DELETE_ITEMS] = deleteItemsOnCollection;
 
 /** additional fields */
 obj[ADDITIONAL_FIELD] = {};
@@ -47,11 +52,14 @@ obj[USER][COLLECTIONS_PER_USER] = collectionsPerUser;
 
 obj[ITEM] = {};
 obj[ITEM][CREATE] = itemCreate;
+obj[ITEM][DELETE] = deleteSingleItemRequest;
+obj[ITEM][UPDATE] = itemUpdateData;
 
 /**ERRORS MAP */
 errors[COLLECTION] = {};
 errors[COLLECTION][CREATE] = "Failed to create collection";
 errors[COLLECTION][UPDATE] = "Failed to update collection";
+errors[COLLECTION][DELETE_ITEMS] = "Failed to delete group of items";
 
 errors[USER] = {};
 errors[USER][COLLECTIONS_PER_USER] = "Failed to get collections";
@@ -60,6 +68,8 @@ errors[CATHEGORY] = { default: "Failed to get cathegory" };
 
 errors[ITEM] = {};
 errors[ITEM][CREATE] = "Failed to create item";
+errors[ITEM][DELETE] = "Failed to delete item";
+errors[ITEM][UPDATE] = "Failed to update item's data";
 
 export const apimap = obj;
 export const errorsmap = errors;

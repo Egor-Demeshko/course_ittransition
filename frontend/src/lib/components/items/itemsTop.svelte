@@ -14,6 +14,9 @@
     export let data;
     let blockImage = false;
 
+    /**
+     * @param {number} id  - Collection id
+     */
     let { modified_at, image_link, id, title } = data;
 
     async function addItemWithCOllectionId() {

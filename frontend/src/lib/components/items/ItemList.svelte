@@ -5,5 +5,5 @@
     export let data;
 </script>
 
-<Header />
+<Header collection_id={data?.id} />
 <Items />

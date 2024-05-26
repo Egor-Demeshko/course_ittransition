@@ -84,13 +84,6 @@ export const AdditionalFieldLink = "AdditionalFieldLink";
 export const AdditionalFieldComposed = "AdditionalFieldComposed";
 
 /**
- * @typedef TagsLink
- * @property {number} id
- * @property {string} tag_content
- */
-export const TagsLink = "TagsLink";
-
-/**
  * @typedef Item
  * @property {number} id
  * @property {string} name
@@ -130,3 +123,17 @@ export const ItemSelected = "ItemSelected";
  * @type {{[key: number]: ItemSelected}}
  */
 export const selectedItemsStore = "selectedItemsStore";
+
+/**
+ * @typedef Tag
+ * @property {string} value
+ * @property {number} id
+ */
+export const Tag = "Tag";
+
+/**
+ * @typedef TagsLink
+ * @property {number} id
+ * @property {string} tag_content
+ */
+export const TagsLink = "TagsLink";

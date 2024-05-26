@@ -57,6 +57,13 @@ use Doctrine\ORM\Mapping\OneToMany;
     normalizationContext: ['groups' => ['collections:peruser']],
     paginationItemsPerPage: 5
 )]
+#[ApiResource(
+    operations: [
+        new PATCH()
+    ],
+    shortName: 'Delete items on collection',
+    denormalizationContext: ['groups' => ['collection:delete:items']]
+)]
 class CollectionData
 {
     #[ORM\Id]
@@ -121,8 +128,8 @@ class CollectionData
     /**
      * @var Collection<int, Item>
      */
-    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'collection')]
-    #[Groups(['collection:get:single'])]
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'collection', cascade: ['persist'], orphanRemoval: true)]
+    #[Groups(['collection:get:single', 'collection:delete:items'])]
     private Collection $items;
 
     public function __construct()

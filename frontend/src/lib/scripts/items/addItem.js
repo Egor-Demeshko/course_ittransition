@@ -1,3 +1,4 @@
+import { checkboxes } from "$components/Controlls/stores/checkboxesStore";
 import { itemsStore } from "$components/items/itemsStores";
 import { DEFAULT_TITLE, GENERAL_ERROR } from "$data/texts";
 import { RefreshTokenError } from "$errors/RefreshTokenError";
@@ -10,6 +11,7 @@ import {
     errorNotificationType,
 } from "$notification/notification";
 import { STORAGE_LOCAL, getDataFromStorage } from "$storage/storages";
+import { getItemSelectedObj } from "$utils/DTO/getItemSelectedObj";
 
 /**
  * @param {number} collection_id
@@ -38,6 +40,11 @@ export async function addItem(collection_id) {
             itemsStore.update((currentItems) => {
                 // @ts-ignore
                 return { [item.id]: item, ...currentItems };
+            });
+            checkboxes.update((checkboxes) => {
+                const checkbox = getItemSelectedObj();
+                checkbox.id = item.id;
+                return { ...checkboxes, [item.id]: checkbox };
             });
         }
     } catch (e) {

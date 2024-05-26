@@ -7,6 +7,7 @@
         getItemsStoreObj,
     } from "$components/items/itemsStores.js";
     import { initialSetup } from "$components/Controlls/stores/checkboxesStore.js";
+    import { singleItemToApp } from "$normolizers/singleItemToApp.js";
 
     export let data;
     const values = data?.data;
@@ -15,7 +16,8 @@
         const itemsObj = getItemsStoreObj();
         const ids = [];
         for (let item of values.items) {
-            itemsObj[item.id] = item;
+            //TODO нормальная выдача items
+            itemsObj[item.id] = singleItemToApp(item);
             ids.push(item.id);
         }
         itemsStore.set(itemsObj);

@@ -1,7 +1,8 @@
 <script>
     import Button from "$components/Controlls/Button.svelte";
     import Tags from "$components/Tags.svelte";
-    import { ITEM_OPEN, LAST_MODIFIED } from "$data/texts";
+    import { ITEM_OPEN, LAST_MODIFIED, WAS_NOT_MODIFIED } from "$data/texts";
+    import { deleteSingleItem } from "$items/deleteSingleItem";
 
     export let modified_at = "some date";
     /** @type {number}*/
@@ -9,14 +10,23 @@
     /** @type {import('$types/types').TagsLink[]}*/
     export let tags;
 
+    let buttonBlock = false;
+
     function navigateToItemPage() {}
-    function onDelete() {}
+    async function onDelete() {
+        if (buttonBlock) return;
+        buttonBlock = true;
+        await deleteSingleItem(id);
+
+        buttonBlock = false;
+    }
 </script>
 
 <div class="right">
     <div class="top">
         <div class="top__left">
-            {LAST_MODIFIED}: <span>{modified_at}</span>
+            {LAST_MODIFIED}:
+            <span>{modified_at ? modified_at : WAS_NOT_MODIFIED}</span>
         </div>
         <div class="top__right">
             <div>

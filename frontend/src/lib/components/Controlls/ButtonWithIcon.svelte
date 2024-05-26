@@ -3,6 +3,8 @@
     import { PRIMARY } from "$data/consts";
 
     export let style = PRIMARY;
+
+    /** @type {Function}*/
     export let clickHandler = () => {};
 </script>
 

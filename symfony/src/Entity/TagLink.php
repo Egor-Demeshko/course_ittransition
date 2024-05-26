@@ -17,6 +17,10 @@ class TagLink
     #[ORM\JoinColumn(nullable: false)]
     private ?Tags $tag = null;
 
+    #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: "tagLinks")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Item $item = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -32,5 +36,16 @@ class TagLink
         $this->tag = $tag;
 
         return $this;
+    }
+
+    public function setItem(?Item $item): static
+    {
+        $this->item = $item;
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->item;
     }
 }

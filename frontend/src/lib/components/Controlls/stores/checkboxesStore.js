@@ -12,3 +12,15 @@ export function initialSetup(ids) {
         return checkboxes;
     });
 }
+
+/**
+ * @param {Array<number>} ids - ids to delete
+ */
+export function clearCheckboxes(ids) {
+    checkboxes.update((checkboxes) => {
+        ids.forEach((id) => {
+            delete checkboxes[id];
+        });
+        return checkboxes;
+    });
+}

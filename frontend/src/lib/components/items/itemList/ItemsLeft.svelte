@@ -1,20 +1,53 @@
 <script>
     import { ITEM_ID } from "$data/texts";
+    import { updateItem } from "$items/updateItem";
+    import { createEventDispatcher } from "svelte";
     import ItemAdditionalField from "./ItemAdditionalField.svelte";
+    import { COL_TITLE_CHANGED } from "$data/consts";
 
     /** @type {number}*/
     export let id;
     /** @type {string}*/
     export let name;
 
+    let editStatus = true;
+
     /** @type {import('$types/types').AdditionalFieldComposed[]}*/
     export let additional_fields = [];
+
+    const dispatch = createEventDispatcher();
+
+    async function changeItemTitle(e) {
+        editStatus = false;
+        const content = e.target.textContent ?? "";
+
+        if (content) {
+            /**
+             * @type {{ modified_at: string }}
+             */
+            const result = await updateItem(id, { name: content });
+
+            if (result && result.modified_at) {
+                dispatch(COL_TITLE_CHANGED, {
+                    modified_at_updated: result.modified_at,
+                    name_updated: content,
+                });
+            }
+        }
+
+        editStatus = true;
+    }
 </script>
 
 <div class="item_left">
     <div class="top">
         <span>{ITEM_ID}: {id}</span>
-        <h4>{name}</h4>
+        <h4
+            contenteditable={editStatus}
+            on:blur|preventDefault={changeItemTitle}
+        >
+            {name}
+        </h4>
     </div>
     <div class="bottom">
         {#each additional_fields as { label, type, content }}
