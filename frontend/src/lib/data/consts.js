@@ -4,6 +4,8 @@ export const PASSWORD = "password";
 export const LOGIN_END = "login_check";
 export const LOGOUT = "logout";
 export const REFRESH = "refresh";
+export const PRIMARY = "primary";
+export const DANGER = "danger";
 
 /** EVENTS */
 export const DROPDOWN_CHANGED = "dropdown_changed";

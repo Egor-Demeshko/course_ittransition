@@ -15,5 +15,5 @@ export function handleFrontError(error, errorsToShow) {
     } else {
         addNotification(errorNotificationType, GENERAL_ERROR);
     }
-    console.error(error);
+    console.error(error.message);
 }

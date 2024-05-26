@@ -25,3 +25,17 @@ export const getFullCollectionObj = () => {
         fields: [],
     };
 };
+
+/**
+ * @returns {import('$types/types').SingleCollection}
+ */
+export const getSingleCollectionObj = () => {
+    return {
+        id: 0,
+        title: "",
+        image_link: "",
+        modified_at: "",
+        additionalFields: [],
+        items: [],
+    };
+};
