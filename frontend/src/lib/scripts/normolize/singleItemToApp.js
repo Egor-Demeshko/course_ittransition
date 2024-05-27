@@ -1,4 +1,5 @@
 import { getItemObject } from "$utils/DTO/getItemObject";
+import { getTagLinkObj } from "$utils/DTO/getTagLinkObj";
 
 /**
  *
@@ -15,8 +16,8 @@ export function singleItemToApp(data) {
             case "name":
                 item.name = value.toString();
                 break;
-            case "tags":
-                item.tags = value;
+            case "tagLinks":
+                item.tags = processtagLink(value);
                 break;
             case "modified_at":
                 item.modified_at = value.toString();
@@ -24,8 +25,36 @@ export function singleItemToApp(data) {
             case "additional_fields":
                 item.additional_fields = value;
                 break;
+            case "collection":
+                item.collection_id = value?.id || null;
+                break;
         }
     }
-
     return item;
+}
+
+/**
+ *
+ * @param {[]} tagLinks
+ * @returns {{[key: number]: import('$types/types').TagsLink}}
+ */
+function processtagLink(tagLinks) {
+    /** @type {{[key: number]: import('$types/types').TagsLink}} */
+    const tagsArr = {};
+    for (let link of tagLinks) {
+        const obj = getTagLinkObj();
+        // @ts-ignore
+        if (link.id) {
+            // @ts-ignore
+            obj.id = Number.parseInt(link.id);
+        }
+
+        if (link?.tag) {
+            obj.tag = { id: null, value: link.tag?.value ?? "" };
+        }
+
+        tagsArr[obj.id] = obj;
+    }
+
+    return tagsArr;
 }

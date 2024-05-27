@@ -22,10 +22,23 @@ export function singleCollectionToApp(data) {
                 singleCollectionObject.additionalFields = value;
                 break;
             case "items":
-                singleCollectionObject.items = value;
+                singleCollectionObject.items = parseItems(value);
                 break;
         }
     }
 
     return singleCollectionObject;
+}
+
+function parseItems(value) {
+    const arr = [];
+
+    for (let item of value) {
+        const newTags = [];
+        for (let tagLink of item.tagLinks) {
+            if (tagLink.tag && tagLink.tag.value) {
+                newTags.push(tagLink.tag.value);
+            }
+        }
+    }
 }

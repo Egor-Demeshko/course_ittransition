@@ -2,14 +2,15 @@
     import SingleTag from "./SingleTag.svelte";
 
     /**
-     * @type {{[key: number]: import('$types/types').Tag}}
+     * @type {{[key: number]: import('$types/types').TagsLink}}
+     * @description id here is TagLink id
      */
     export let tags = {};
 </script>
 
 <div>
-    {#each tags as tag}
-        <SingleTag {tag} />
+    {#each Object.values(tags) as tagLink}
+        <SingleTag {tagLink} />
     {/each}
 </div>
 

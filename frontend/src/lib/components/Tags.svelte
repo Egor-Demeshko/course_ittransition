@@ -9,7 +9,7 @@
     <div class="tags">
         {#each tags as tag}
             <div class="tag">
-                <span>{tag.tag_content}</span>
+                <span>{tag.value}</span>
             </div>
         {/each}
     </div>

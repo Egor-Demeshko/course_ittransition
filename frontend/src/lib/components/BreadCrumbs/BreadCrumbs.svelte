@@ -1,36 +1,7 @@
 <script>
     import { page } from "$app/stores";
-    import { pageName } from "$lib/components/BreadCrumbs/pageNames";
 
-    let pathname = $page.url.pathname;
-    /**
-     * @type Record<string, string>
-     */
-    let routes = {};
-
-    $: elements = splitUrl(pathname);
-    $: formRooteList(elements);
-
-    /**
-     * @param {string} pathname
-     */
-    function splitUrl(pathname) {
-        let elements = pathname.split("/");
-
-        return elements.slice(1, -1);
-    }
-
-    /**
-     *
-     * @param {string[]} elements
-     */
-    function formRooteList(elements) {
-        let route = "";
-        elements.forEach((routeToAdd) => {
-            route += `/${routeToAdd}`;
-            routes[routeToAdd] = route;
-        });
-    }
+    export let links = [];
 </script>
 
 <ul>
@@ -50,10 +21,10 @@
             </svg>
         </a>
     </li>
-    {#each elements as element}
+    {#each links as link}
         <li>
             <span>/</span>
-            <a href={routes[element]}>{pageName[element]}</a>
+            <a href={link.link}>{link.name}</a>
         </li>
     {/each}
 </ul>

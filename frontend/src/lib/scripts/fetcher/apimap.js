@@ -10,6 +10,9 @@ import { itemCreate } from "$fetcher/item/itemCreate.js";
 import { deleteItemsOnCollection } from "./collection/deleteItemsOnCollection";
 import { deleteSingleItemRequest } from "./item/deleteSingleItemRequest";
 import { itemUpdateData } from "./item/itemUpdateData";
+import { getSingleItem } from "./item/getSingleItem";
+import { tagCreateRequest } from "./tag/tagCreateRequest";
+import { tagDeleteRequest } from "./tag/tagDeleteRequest";
 
 /**API **/
 /**@type {string} */
@@ -24,6 +27,8 @@ export const DELETE = "delete";
 export const SINGLE = "single";
 export const ITEM = "items";
 export const DELETE_ITEMS = "delete_items_on_collections";
+export const TAGLINK = "taglinks";
+
 /**
  * @type {import('$types/types').RequestMap}
  */
@@ -54,6 +59,11 @@ obj[ITEM] = {};
 obj[ITEM][CREATE] = itemCreate;
 obj[ITEM][DELETE] = deleteSingleItemRequest;
 obj[ITEM][UPDATE] = itemUpdateData;
+obj[ITEM][SINGLE] = getSingleItem;
+
+obj[TAGLINK] = {};
+obj[TAGLINK][CREATE] = tagCreateRequest;
+obj[TAGLINK][DELETE] = tagDeleteRequest;
 
 /**ERRORS MAP */
 errors[COLLECTION] = {};
@@ -70,6 +80,11 @@ errors[ITEM] = {};
 errors[ITEM][CREATE] = "Failed to create item";
 errors[ITEM][DELETE] = "Failed to delete item";
 errors[ITEM][UPDATE] = "Failed to update item's data";
+errors[ITEM][SINGLE] = "Failed to get item data";
+
+errors[TAGLINK] = {};
+errors[TAGLINK][CREATE] = "Failed to create a tag";
+errors[TAGLINK][DELETE] = "Failed to delete a tag";
 
 export const apimap = obj;
 export const errorsmap = errors;

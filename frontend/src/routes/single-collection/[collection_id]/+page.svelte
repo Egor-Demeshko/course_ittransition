@@ -12,11 +12,15 @@
     export let data;
     const values = data?.data;
 
+    /** @type {number | null}*/
+    let userId = null;
+
     if (values.items) {
         const itemsObj = getItemsStoreObj();
         const ids = [];
         for (let item of values.items) {
             //TODO нормальная выдача items
+            console.log(item);
             itemsObj[item.id] = singleItemToApp(item);
             ids.push(item.id);
         }

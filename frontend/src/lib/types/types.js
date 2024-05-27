@@ -84,13 +84,28 @@ export const AdditionalFieldLink = "AdditionalFieldLink";
 export const AdditionalFieldComposed = "AdditionalFieldComposed";
 
 /**
+ * @typedef Tag
+ * @property {string} value
+ * @property {number|null} id
+ */
+export const Tag = "Tag";
+
+/**
+ * @typedef TagsLink
+ * @property {number} id
+ * @property {Tag} tag
+ */
+export const TagsLink = "TagsLink";
+
+/**
  * @typedef Item
  * @property {number} id
  * @property {string} name
- * @property {Array< TagsLink >} tags
+ * @property {{[key: string]: TagsLink }} tags
  * @property {string} modified_at
  * @property {Array<AdditionalFieldComposed>} additional_fields
- *
+ * @property {?number} collection_id
+ * @property {Array<TagsLink>} tags
  */
 export const Item = "Item";
 
@@ -108,6 +123,7 @@ export const ItemsList = "ItemsList";
  * @property {string} modified_at
  * @property {Array<string>} additionalFields
  * @property {ItemsList} items
+
  */
 export const SingleCollection = "SingleCollection";
 
@@ -125,15 +141,8 @@ export const ItemSelected = "ItemSelected";
 export const selectedItemsStore = "selectedItemsStore";
 
 /**
- * @typedef Tag
- * @property {string} value
- * @property {number} id
+ * @typedef tagCreate
+ * @property {{value: string}} tag
+ * @property {string} item - IRI LINK
  */
-export const Tag = "Tag";
-
-/**
- * @typedef TagsLink
- * @property {number} id
- * @property {string} tag_content
- */
-export const TagsLink = "TagsLink";
+export const tagCreate = "tagCreate";

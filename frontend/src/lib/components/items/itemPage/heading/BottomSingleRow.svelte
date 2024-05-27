@@ -6,7 +6,7 @@
     export let modified_at = WAS_NOT_MODIFIED;
 
     /**
-     * @type {{[key: number]: import('$types/types').Tag}}
+     * @type {{[key: number]: import('$types/types').TagsLink}}
      */
     export let tags = {};
 </script>
@@ -20,7 +20,9 @@
         <span class="item_id">{ITEM_ID}: {item_id}</span>
     </div>
     <div class="tags flex-1">
-        <Tags {tags} />
+        {#key tags}
+            <Tags {tags} />
+        {/key}
     </div>
 </div>
 

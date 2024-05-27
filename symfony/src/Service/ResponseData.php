@@ -4,22 +4,24 @@ namespace App\Service;
 
 class ResponseData
 {
-    private array $data = [
-        'status' => false,
-        'success_message' => null,
-        'errors' => []
-    ];
+    protected array $data;
 
-    private const SUCCESS_MESSAGE = "Account has been created.";
+    protected const SUCCESS_MESSAGE = "Account has been created.";
+    public const SUCCESS_ON_TAG = "Tag was created.";
 
     public function __construct()
     {
+        $this->data = [
+            'status' => false,
+            'success_message' => null,
+            'errors' => []
+        ];
     }
 
-    public function setSuccessMessage(): void
+    public function setSuccessMessage(?string $message = null): void
     {
         $this->data['status'] = true;
-        $this->data['success_message'] = self::SUCCESS_MESSAGE;
+        $this->data['success_message'] = $message ?? self::SUCCESS_MESSAGE;
     }
 
     public function setFalse(): void

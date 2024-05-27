@@ -19,7 +19,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['item:get:single']]
+        ),
         new GetCollection(),
         new POST(
             denormalizationContext: ['groups' => ['item:post:newitem']]
@@ -36,32 +38,34 @@ class Item
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:get:single'])]
+    #[Groups(['collection:get:single', 'item:get:single'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['item:post:newitem', 'collection:get:single', 'item:patch:write'])]
+    #[Groups(['item:post:newitem', 'collection:get:single', 'item:patch:write', 'item:get:single'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false,)]
-    #[Groups(['item:post:newitem'])]
+    #[Groups(['item:post:newitem', 'item:get:single'])]
     private ?CollectionData $collection = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: 'DATETIME on update CURRENT_TIMESTAMP')]
-    #[Groups(['collection:get:single', 'item:patch:response'])]
+    #[Groups(['collection:get:single', 'item:patch:response', 'item:get:single'])]
     private ?\DateTimeInterface $modified_at = null;
 
     /**
      * @var Collection<int, AdditionalFieldContent>
      */
     #[ORM\OneToMany(targetEntity: AdditionalFieldContent::class, mappedBy: 'item')]
+    #[Groups(['item:get:single'])]
     private Collection $additionalFieldContents;
 
-    #[ORM\OneToMany(targetEntity: TagLink::class, mappedBy: "item")]
+    #[ORM\OneToMany(targetEntity: TagLink::class, mappedBy: "item", cascade: ['persist'])]
+    #[Groups(['item:get:single', 'collection:get:single'])]
     private Collection $tagLinks;
 
     public function __construct()
