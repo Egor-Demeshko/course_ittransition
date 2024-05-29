@@ -8,7 +8,9 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use App\DTO\SingleItem;
 use App\Repository\ItemRepository;
+use App\State\ItemWithAdditionalData;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +22,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     operations: [
         new Get(
-            normalizationContext: ['groups' => ['item:get:single']]
+            normalizationContext: ['groups' => ['item:get:single']],
+            provider: ItemWithAdditionalData::class
         ),
         new GetCollection(),
         new POST(
@@ -67,6 +70,9 @@ class Item
     #[ORM\OneToMany(targetEntity: TagLink::class, mappedBy: "item", cascade: ['persist'])]
     #[Groups(['item:get:single', 'collection:get:single'])]
     private Collection $tagLinks;
+
+    #[Groups('item:get:single')]
+    private ?array $fieldData = null;
 
     public function __construct()
     {
@@ -182,5 +188,16 @@ class Item
         }
 
         return $this;
+    }
+
+    public function setFieldData(array $data): static
+    {
+        $this->fieldData = $data;
+        return $this;
+    }
+
+    public function getFieldData(): array
+    {
+        return $this->fieldData;
     }
 }

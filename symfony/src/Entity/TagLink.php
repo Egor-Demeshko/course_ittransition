@@ -31,7 +31,7 @@ class TagLink
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('item:get:single')]
+    #[Groups(['item:get:single', 'collection:get:single'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(cascade: ['persist'], targetEntity: Tags::class, inversedBy: 'tagLinks')]

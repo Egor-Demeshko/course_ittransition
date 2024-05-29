@@ -10,5 +10,7 @@ export function getItemObject() {
         modified_at: "",
         additional_fields: [],
         collection_id: null,
+        fieldMetaData: null,
+        additional_content: [],
     };
 }

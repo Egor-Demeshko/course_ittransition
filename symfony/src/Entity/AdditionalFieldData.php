@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\AdditionalFieldDataRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AdditionalFieldDataRepository::class)]
 #[ORM\Table(name: 'additional_field_data')]
+#[ApiResource(
+    operations: [new GetCollection()]
+)]
 class AdditionalFieldData
 {
     #[ORM\Id]
@@ -20,15 +24,23 @@ class AdditionalFieldData
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write', 'item:get:single', 'datacontent:post:read'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write', 'item:get:single', 'datacontent:post:read'])]
     private ?string $label = null;
 
     #[ORM\OneToOne(targetEntity: AdditionalFieldLink::class)]
     private AdditionalFieldLink $additionalFieldLink;
+
+    #[ORM\OneToMany(targetEntity: AdditionalFieldContent::class, mappedBy: 'additional_data')]
+    private Collection $fieldContent;
+
+    public function __construct()
+    {
+        $this->fieldContent = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +87,29 @@ class AdditionalFieldData
     public function setAdditionalFieldLink(?AdditionalFieldLink $link): static
     {
         $this->additionalFieldLink = $link;
+
+        return $this;
+    }
+
+    public function getFieldContent(): ?Collection
+    {
+        return $this->fieldContent;
+    }
+
+    public function addFieldContent(?AdditionalFieldContent $content): static
+    {
+        if (!$this->fieldContent->contains($content)) {
+            $this->fieldContent->add($content);
+            $content->setAdditionalData($this);
+        }
+        return $this;
+    }
+
+    public function removeFieldContent(AdditionalFieldContent $content): static
+    {
+        if ($this->fieldContent->removeElement($content)) {
+            $content->setAdditionalData(null);
+        }
 
         return $this;
     }

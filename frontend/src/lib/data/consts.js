@@ -20,5 +20,6 @@ export const COL_SAVE_TIGGERED = "save_collection";
 export const COL_DELETE_TRIGGERED = "delete_collection";
 export const COL_IMAGE_CHANGED = "image_changed";
 export const COLLECTION_DELETED = "collection_was_deleted";
+export const CREATE_ADDITIONAL = "create_additional";
 
 export const INPUT_CHANGED = "input_changed";

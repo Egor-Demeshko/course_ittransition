@@ -106,6 +106,8 @@ export const TagsLink = "TagsLink";
  * @property {Array<AdditionalFieldComposed>} additional_fields
  * @property {?number} collection_id
  * @property {Array<TagsLink>} tags
+ * @property {?FieldMetaData} fieldMetaData
+ * @property {Array<AdditionalContent>} additional_content
  */
 export const Item = "Item";
 
@@ -114,6 +116,12 @@ export const Item = "Item";
  * @type {{[key: number]: Item}}
  */
 export const ItemsList = "ItemsList";
+
+/**
+ * @typedef FieldMetaData
+ * @type {{[key: string]: {id: number, label: string, type: string}}}
+ */
+export const FieldMetaData = "FieldMetaData";
 
 /**
  * @typedef SingleCollection
@@ -146,3 +154,12 @@ export const selectedItemsStore = "selectedItemsStore";
  * @property {string} item - IRI LINK
  */
 export const tagCreate = "tagCreate";
+
+/**
+ * @typedef AdditionalContent
+ * @property {number} id - additionalContent table id
+ * @property {string} type - field type - determine how to display
+ * @property {string} content - field content
+ * @property {string} label -
+ */
+export const AdditionalContent = "AdditionalContent";

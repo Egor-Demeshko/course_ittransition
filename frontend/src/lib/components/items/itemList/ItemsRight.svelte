@@ -1,4 +1,5 @@
 <script>
+    import { goto } from "$app/navigation";
     import Button from "$components/Controlls/Button.svelte";
     import Tags from "$components/Tags.svelte";
     import { ITEM_OPEN, LAST_MODIFIED, WAS_NOT_MODIFIED } from "$data/texts";
@@ -12,7 +13,10 @@
 
     let buttonBlock = false;
 
-    function navigateToItemPage() {}
+    function navigateToItemPage() {
+        goto(`/item/${id}`);
+    }
+
     async function onDelete() {
         if (buttonBlock) return;
         buttonBlock = true;
@@ -61,6 +65,7 @@
         flex-direction: column;
         gap: 1rem;
         font-family: Poppins, sans-serif;
+        flex: 1;
     }
 
     .top {

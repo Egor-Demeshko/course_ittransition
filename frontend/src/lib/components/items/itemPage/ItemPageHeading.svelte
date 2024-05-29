@@ -33,7 +33,9 @@
         item.name = actualData.name;
         item.modified_at = actualData.modified_at;
         item.tags = actualData.tags;
-
+        item.fieldMetaData = actualData.fieldMetaData;
+        item.additional_content = actualData.additional_content;
+        item.collection_id = actualData.collection_id;
         singleItemStore.set(item);
     });
 

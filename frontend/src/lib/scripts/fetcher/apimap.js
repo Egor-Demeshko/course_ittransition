@@ -13,6 +13,7 @@ import { itemUpdateData } from "./item/itemUpdateData";
 import { getSingleItem } from "./item/getSingleItem";
 import { tagCreateRequest } from "./tag/tagCreateRequest";
 import { tagDeleteRequest } from "./tag/tagDeleteRequest";
+import { additionaContentCreate } from "./additionalField/additionaContentCreate";
 
 /**API **/
 /**@type {string} */
@@ -28,6 +29,8 @@ export const SINGLE = "single";
 export const ITEM = "items";
 export const DELETE_ITEMS = "delete_items_on_collections";
 export const TAGLINK = "taglinks";
+export const ADDITIONAL_CONTENT = "additional_field_contents";
+export const ADDITIONAL_FIELD_DATA = "additional_field_datas";
 
 /**
  * @type {import('$types/types').RequestMap}
@@ -51,6 +54,9 @@ obj[ADDITIONAL_FIELD] = {};
 obj[ADDITIONAL_FIELD][CREATE] = additionalFieldCreate;
 obj[ADDITIONAL_FIELD][DELETE] = additionalFieldDelete;
 obj[ADDITIONAL_FIELD][UPDATE] = additionalFieldUpdate;
+
+obj[ADDITIONAL_CONTENT] = {};
+obj[ADDITIONAL_CONTENT][CREATE] = additionaContentCreate;
 
 obj[USER] = {};
 obj[USER][COLLECTIONS_PER_USER] = collectionsPerUser;
@@ -81,6 +87,9 @@ errors[ITEM][CREATE] = "Failed to create item";
 errors[ITEM][DELETE] = "Failed to delete item";
 errors[ITEM][UPDATE] = "Failed to update item's data";
 errors[ITEM][SINGLE] = "Failed to get item data";
+
+errors[ADDITIONAL_CONTENT] = {};
+errors[ADDITIONAL_CONTENT][CREATE] = "Failed to add additional content";
 
 errors[TAGLINK] = {};
 errors[TAGLINK][CREATE] = "Failed to create a tag";

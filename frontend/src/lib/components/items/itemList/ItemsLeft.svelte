@@ -63,6 +63,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        flex: 1;
     }
 
     span {
@@ -77,7 +78,7 @@
 
     h4 {
         font-size: 1.375rem;
-        line-height: 1rem;
+        line-height: 1.15;
         font-weight: bold;
         max-width: 100%;
         overflow: hidden;

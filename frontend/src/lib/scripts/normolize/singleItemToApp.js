@@ -1,5 +1,6 @@
 import { getItemObject } from "$utils/DTO/getItemObject";
 import { getTagLinkObj } from "$utils/DTO/getTagLinkObj";
+import { additionalContentToApp } from "./additionalContentToApp";
 
 /**
  *
@@ -7,7 +8,6 @@ import { getTagLinkObj } from "$utils/DTO/getTagLinkObj";
  */
 export function singleItemToApp(data) {
     const item = getItemObject();
-
     for (let [key, value] of Object.entries(data)) {
         switch (key) {
             case "id":
@@ -28,8 +28,15 @@ export function singleItemToApp(data) {
             case "collection":
                 item.collection_id = value?.id || null;
                 break;
+            case "fieldData":
+                item.fieldMetaData = value;
+                break;
+            case "additionalFieldContents":
+                item.additional_content = processAdditionalContent(value);
+                break;
         }
     }
+
     return item;
 }
 
@@ -57,4 +64,19 @@ function processtagLink(tagLinks) {
     }
 
     return tagsArr;
+}
+
+/**
+ *
+ * @param {[{}]} value
+ */
+function processAdditionalContent(additionalContents) {
+    const result = [];
+    additionalContents.forEach((content) => {
+        let value = additionalContentToApp(content);
+        if (value) {
+            result.push(value);
+        }
+    });
+    return result;
 }

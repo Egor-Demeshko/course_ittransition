@@ -1,3 +1,4 @@
+import { additionalContentToApp } from "$normolizers/additionalContentToApp";
 import { getTagLinkObj } from "$utils/DTO/getTagLinkObj";
 import { writable } from "svelte/store";
 
@@ -26,6 +27,21 @@ const store = (function createStore() {
                 delete item.tags[id];
                 return item;
             });
+        },
+        /** @param {import('$types/types').AdditionalContent} data*/
+        addAdditionalContent: (data) => {
+            let additionalContent = additionalContentToApp(data);
+            update(
+                /** @param {import('$types/types').Item} item */
+                (item) => {
+                    const newarr = [
+                        additionalContent,
+                        ...item.additional_content,
+                    ];
+                    item.additional_content = newarr;
+                    return item;
+                }
+            );
         },
     };
 })();

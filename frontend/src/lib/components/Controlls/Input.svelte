@@ -7,6 +7,9 @@
     export let name = DEFAULT_TITLE;
     export let placeholder = "Enter text";
     export let inputEventName = INPUT_CHANGED;
+    export let label = "";
+
+    let input;
 
     const dispatch = createEventDispatcher();
     let value = "";
@@ -19,13 +22,14 @@
     }
 
     function clearInput() {
-        value = "";
+        input.value = "";
     }
 </script>
 
 <label for={name}>
-    <span>{ENTER_TAG_NAME}:</span>
+    <span>{label}:</span>
     <input
+        bind:this={input}
         id={name}
         {type}
         {name}

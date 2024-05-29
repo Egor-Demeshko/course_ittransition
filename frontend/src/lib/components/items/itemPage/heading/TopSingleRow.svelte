@@ -2,7 +2,7 @@
     import ButtonWithIcon from "$components/Controlls/ButtonWithIcon.svelte";
     import Input from "$components/Controlls/Input.svelte";
     import { COL_TITLE_CHANGED, INPUT_CHANGED } from "$data/consts";
-    import { DEFAULT_TITLE, TAG } from "$data/texts";
+    import { DEFAULT_TITLE, ENTER_TAG_NAME, TAG } from "$data/texts";
     import { updateItem } from "$items/updateItem";
     import { makeAddTagRequest } from "$lib/scripts/tags/makeAddTagRequest";
     import { getCreateTagRequestObj } from "$utils/DTO/getCreateTagRequestObj";
@@ -62,7 +62,11 @@
         </h1>
     </div>
     <div class="input">
-        <Input name={"tag"} on:input_changed={inputChanged} />
+        <Input
+            label={ENTER_TAG_NAME}
+            name={"tag"}
+            on:input_changed={inputChanged}
+        />
         <div class="button">
             <ButtonWithIcon clickHandler={saveTag}>
                 <svg

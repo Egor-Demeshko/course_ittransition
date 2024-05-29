@@ -22,7 +22,7 @@ export function singleCollectionToApp(data) {
                 singleCollectionObject.additionalFields = value;
                 break;
             case "items":
-                singleCollectionObject.items = parseItems(value);
+                singleCollectionObject.items = value;
                 break;
         }
     }
@@ -30,15 +30,19 @@ export function singleCollectionToApp(data) {
     return singleCollectionObject;
 }
 
-function parseItems(value) {
-    const arr = [];
-
-    for (let item of value) {
+/**
+ *
+ * @return {Array<import('$types/types').Item>} items
+ */
+function parseItems(items) {
+    for (let item of items) {
         const newTags = [];
         for (let tagLink of item.tagLinks) {
             if (tagLink.tag && tagLink.tag.value) {
                 newTags.push(tagLink.tag.value);
             }
         }
+        item.tagLinks = newTags;
     }
+    return items;
 }
