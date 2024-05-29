@@ -7,7 +7,7 @@
      * @type {import('$types/types').Item}
      */
     export let item;
-    let { id, name, modified_at, tags, additional_fields } = item;
+    let { id, name, modified_at, tags, additional_content } = item;
 
     function setUpdatedData({ detail }) {
         let { modified_at_updated, name_updated } = detail;
@@ -26,7 +26,7 @@
         <ItemsLeft
             {id}
             {name}
-            {additional_fields}
+            {additional_content}
             on:col_title_changed={setUpdatedData}
         />
         <ItemsRight {id} {modified_at} {tags} />

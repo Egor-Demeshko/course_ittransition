@@ -14,6 +14,7 @@ import { getSingleItem } from "./item/getSingleItem";
 import { tagCreateRequest } from "./tag/tagCreateRequest";
 import { tagDeleteRequest } from "./tag/tagDeleteRequest";
 import { additionaContentCreate } from "./additionalField/additionaContentCreate";
+import { getTopFive } from "./collection/getTopFive";
 
 /**API **/
 /**@type {string} */
@@ -31,6 +32,8 @@ export const DELETE_ITEMS = "delete_items_on_collections";
 export const TAGLINK = "taglinks";
 export const ADDITIONAL_CONTENT = "additional_field_contents";
 export const ADDITIONAL_FIELD_DATA = "additional_field_datas";
+export const TOP_FIVE = "biggest_collections";
+export const GET = "get";
 
 /**
  * @type {import('$types/types').RequestMap}
@@ -70,6 +73,9 @@ obj[ITEM][SINGLE] = getSingleItem;
 obj[TAGLINK] = {};
 obj[TAGLINK][CREATE] = tagCreateRequest;
 obj[TAGLINK][DELETE] = tagDeleteRequest;
+
+obj[TOP_FIVE] = {};
+obj[TOP_FIVE][GET] = getTopFive;
 
 /**ERRORS MAP */
 errors[COLLECTION] = {};

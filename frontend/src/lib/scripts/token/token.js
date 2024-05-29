@@ -141,3 +141,13 @@ export function getNameFromToken() {
 
     return "";
 }
+
+export function getUserIdFromToken() {
+    let tokenData = getDataFromStorage(STORAGE_LOCAL);
+    if (tokenData) {
+        let { user_id } = JSON.parse(tokenData);
+        if (tokenData && user_id) {
+            return user_id;
+        }
+    }
+}

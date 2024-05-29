@@ -17,7 +17,7 @@
             <Input value={content} name={content} />
         {:else if type === "Checkbox"}
             <CheckBox {id} />
-        {:else if type === "date"}
+        {:else if type === "Date"}
             <Input type="date" value={content} />
         {:else if type === "Number"}
             <Input type="number" value={content} />

@@ -26,12 +26,12 @@ class AdditionalFieldContent
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['item:get:single', 'datacontent:post:write', 'datacontent:post:read'])]
+    #[Groups(['item:get:single', 'datacontent:post:write', 'datacontent:post:read', 'collection:get:single'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'fieldContent')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:get:single', 'datacontent:post:write', 'datacontent:post:read'])]
+    #[Groups(['item:get:single', 'datacontent:post:write', 'datacontent:post:read', 'collection:get:single'])]
     private ?AdditionalFieldData $additional_data = null;
 
     #[ORM\ManyToOne(inversedBy: 'additionalFieldContents')]

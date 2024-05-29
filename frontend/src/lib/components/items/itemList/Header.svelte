@@ -10,6 +10,7 @@
         DELETE_SELECTED,
     } from "$data/texts.js";
     import { deleteSelectedItems } from "$items/deleteSelectedItems.js";
+    import { onDestroy } from "svelte";
 
     export let collection_id = 0;
 
@@ -22,6 +23,10 @@
                 items_quantity++;
             }
         }
+    });
+
+    onDestroy(() => {
+        checkboxes.set({});
     });
 
     let active = false;

@@ -26,7 +26,6 @@ class ItemWithAdditionalData implements ProviderInterface
         $collection = $collectionRepository->find($collectionObj->getId());
 
         $additionalFieldsObjects = $collection->getAdditionalFields()->getValues();
-        // $item->setAdditionalContent($this->createAdditionalContent($item));
         $item->setFieldData($this->createFieldData($additionalFieldsObjects));
         return $item;
     }
@@ -45,24 +44,5 @@ class ItemWithAdditionalData implements ProviderInterface
         }
 
         return $fieldData;
-    }
-
-    private function createAdditionalContent(Item $item): array
-    {
-        $result = [];
-
-
-        //поулчить collection additional_field_content
-        $addionalContents = $item->getAdditionalFieldContents()->getValues();
-
-        foreach ($addionalContents as $content) {
-            $singleContent = [];
-            $singleContent['id'] = $content->getId();
-            $singleContent['content'] = $content->getContent();
-        }
-
-        //
-
-        return $result;
     }
 }

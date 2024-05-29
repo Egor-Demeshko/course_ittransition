@@ -31,13 +31,20 @@ class CollectiondataRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Collectiondata
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+
+    public function findTopFive()
+    {
+        $em = $this->getEntityManager();
+
+        $query = $this->createQueryBuilder('c')
+            ->select('c.id, c.title, c.description, c.image_link, COUNT(i.name) as item_quantity')
+            ->join('c.items', 'i', 'WITH', 'i.collection = c')
+            ->groupBy('c.id', 'c.title', 'c.description', 'c.image_link')
+            ->setMaxResults(5)
+            ->orderBy('item_quantity', 'DESC')
+            ->getQuery();
+
+
+        return $query->getResult();
+    }
 }

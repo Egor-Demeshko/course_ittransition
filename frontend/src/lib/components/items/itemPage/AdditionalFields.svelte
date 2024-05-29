@@ -48,7 +48,4 @@
         padding-top: 3.375rem;
         gap: 1rem;
     }
-
-    .field {
-    }
 </style>

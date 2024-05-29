@@ -37,5 +37,7 @@ export const getSingleCollectionObj = () => {
         modified_at: "",
         additionalFields: [],
         items: [],
+        user_id: null,
+        additionalFieldContents: [],
     };
 };

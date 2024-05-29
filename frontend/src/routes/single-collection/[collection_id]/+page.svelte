@@ -17,11 +17,15 @@
     if (values.items) {
         const itemsObj = getItemsStoreObj();
         const ids = [];
-        console.log(values);
+        if (values?.user_id) {
+            user_id = values.user_id;
+        }
+
         for (let item of values.items) {
             itemsObj[item.id] = singleItemToApp(item);
             ids.push(item.id);
         }
+
         itemsStore.set(itemsObj);
         initialSetup(ids);
     }
