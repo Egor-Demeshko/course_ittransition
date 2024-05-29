@@ -1,8 +1,23 @@
 <script>
-    /** @type {import('$types/types').Tag}*/
-    export let tag;
+    import { deleteTagLink } from "$tags/deleteTagLink";
 
-    let { id, value } = tag;
+    /** @type {import('$types/types').TagsLink}*/
+    export let tagLink;
+
+    let {
+        id: tagLinkId,
+        tag: { id, value },
+    } = tagLink;
+
+    let block = false;
+
+    async function deleteTag() {
+        if (block) return;
+        block = true;
+        await deleteTagLink(tagLinkId);
+
+        block = false;
+    }
 </script>
 
 <div class="tag">

@@ -1,16 +1,21 @@
 <script>
     import ButtonWithIcon from "$components/Controlls/ButtonWithIcon.svelte";
     import Input from "$components/Controlls/Input.svelte";
-    import { COL_TITLE_CHANGED } from "$data/consts";
-    import { DEFAULT_TITLE, TAG } from "$data/texts";
+    import { COL_TITLE_CHANGED, INPUT_CHANGED } from "$data/consts";
+    import { DEFAULT_TITLE, ENTER_TAG_NAME, TAG } from "$data/texts";
     import { updateItem } from "$items/updateItem";
+    import { makeAddTagRequest } from "$lib/scripts/tags/makeAddTagRequest";
+    import { getCreateTagRequestObj } from "$utils/DTO/getCreateTagRequestObj";
     import { createEventDispatcher } from "svelte";
 
     export let name = DEFAULT_TITLE;
+    /** @description item id*/
     export let id = 0;
 
     let status = true;
     let addTagBlocked = false;
+
+    let inputValue = { value: "", callback: () => {} };
     const dispatch = createEventDispatcher();
 
     async function updateTitle(e) {
@@ -34,8 +39,19 @@
     async function saveTag() {
         if (addTagBlocked) return;
         addTagBlocked = true;
+        if (!inputValue) return;
 
+        await makeAddTagRequest(getCreateTagRequestObj(id, inputValue.value));
+        inputValue.callback();
+        inputValue = { value: "", callback: () => {} };
         addTagBlocked = false;
+    }
+
+    function inputChanged({ detail }) {
+        if (!detail) return;
+
+        inputValue.value = detail.value;
+        inputValue.callback = detail.callback;
     }
 </script>
 
@@ -46,7 +62,11 @@
         </h1>
     </div>
     <div class="input">
-        <Input name={"tag"} />
+        <Input
+            label={ENTER_TAG_NAME}
+            name={"tag"}
+            on:input_changed={inputChanged}
+        />
         <div class="button">
             <ButtonWithIcon clickHandler={saveTag}>
                 <svg

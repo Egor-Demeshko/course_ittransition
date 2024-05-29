@@ -84,13 +84,30 @@ export const AdditionalFieldLink = "AdditionalFieldLink";
 export const AdditionalFieldComposed = "AdditionalFieldComposed";
 
 /**
+ * @typedef Tag
+ * @property {string} value
+ * @property {number|null} id
+ */
+export const Tag = "Tag";
+
+/**
+ * @typedef TagsLink
+ * @property {number} id
+ * @property {Tag} tag
+ */
+export const TagsLink = "TagsLink";
+
+/**
  * @typedef Item
  * @property {number} id
  * @property {string} name
- * @property {Array< TagsLink >} tags
+ * @property {{[key: string]: TagsLink }} tags
  * @property {string} modified_at
  * @property {Array<AdditionalFieldComposed>} additional_fields
- *
+ * @property {?number} collection_id
+ * @property {Array<TagsLink>} tags
+ * @property {?FieldMetaData} fieldMetaData
+ * @property {Array<AdditionalContent>} additional_content
  */
 export const Item = "Item";
 
@@ -101,6 +118,12 @@ export const Item = "Item";
 export const ItemsList = "ItemsList";
 
 /**
+ * @typedef FieldMetaData
+ * @type {{[key: string]: {id: number, label: string, type: string}}}
+ */
+export const FieldMetaData = "FieldMetaData";
+
+/**
  * @typedef SingleCollection
  * @property {number} id
  * @property {string} title
@@ -108,6 +131,7 @@ export const ItemsList = "ItemsList";
  * @property {string} modified_at
  * @property {Array<string>} additionalFields
  * @property {ItemsList} items
+
  */
 export const SingleCollection = "SingleCollection";
 
@@ -125,15 +149,17 @@ export const ItemSelected = "ItemSelected";
 export const selectedItemsStore = "selectedItemsStore";
 
 /**
- * @typedef Tag
- * @property {string} value
- * @property {number} id
+ * @typedef tagCreate
+ * @property {{value: string}} tag
+ * @property {string} item - IRI LINK
  */
-export const Tag = "Tag";
+export const tagCreate = "tagCreate";
 
 /**
- * @typedef TagsLink
- * @property {number} id
- * @property {string} tag_content
+ * @typedef AdditionalContent
+ * @property {number} id - additionalContent table id
+ * @property {string} type - field type - determine how to display
+ * @property {string} content - field content
+ * @property {string} label -
  */
-export const TagsLink = "TagsLink";
+export const AdditionalContent = "AdditionalContent";

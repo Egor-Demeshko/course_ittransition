@@ -13,6 +13,7 @@
      * @type {string[]}
      */
     export let options = [];
+    export let lightStyle = false;
 
     const dispatch = createEventDispatcher();
 
@@ -75,6 +76,7 @@
         aria-selected
         class="option option_selected"
         data-select-id={selected_id}
+        class:lightStyle
         on:keydown={(e) => {
             if (e.key === "Enter") {
                 selectOpen = !selectOpen;
@@ -113,6 +115,7 @@
                         role="option"
                         aria-selected="false"
                         class="option"
+                        class:lightStyle
                         tabindex="0"
                     >
                         {tag}
@@ -187,6 +190,10 @@
     }
     .selectOpen > .dropdown > .option:last-child {
         border-radius: 0 0 10px 10px;
+    }
+
+    .option.lightStyle {
+        background-color: var(--light-violet);
     }
 
     .option:hover {

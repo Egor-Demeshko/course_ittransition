@@ -7,9 +7,9 @@
 <div class="wrapper">
     <p>{TAGS}:</p>
     <div class="tags">
-        {#each tags as tag}
+        {#each Object.values(tags) as taglink}
             <div class="tag">
-                <span>{tag.tag_content}</span>
+                <span data-taglink-id={taglink.id}>{taglink.tag.value}</span>
             </div>
         {/each}
     </div>
@@ -33,6 +33,7 @@
     .tags {
         display: flex;
         gap: 0.625rem;
+        flex-wrap: wrap;
     }
 
     .tag {

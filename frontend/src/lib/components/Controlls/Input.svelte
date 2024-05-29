@@ -1,16 +1,42 @@
 <script>
     import { DEFAULT_TITLE, ENTER_TAG_NAME } from "$data/texts";
+    import { INPUT_CHANGED } from "$data/consts";
+    import { createEventDispatcher } from "svelte";
 
     export let type = "text";
     export let name = DEFAULT_TITLE;
     export let placeholder = "Enter text";
+    export let inputEventName = INPUT_CHANGED;
+    export let label = "";
 
-    function inputUpdated() {}
+    let input;
+
+    const dispatch = createEventDispatcher();
+    let value = "";
+
+    function inputUpdated(e) {
+        const text = e?.target.value ?? "";
+        if (text) {
+            dispatch(inputEventName, { value: text, callback: clearInput });
+        }
+    }
+
+    function clearInput() {
+        input.value = "";
+    }
 </script>
 
 <label for={name}>
-    <span>{ENTER_TAG_NAME}:</span>
-    <input id={name} {type} {name} {placeholder} on:change={inputUpdated} />
+    <span>{label}:</span>
+    <input
+        bind:this={input}
+        id={name}
+        {type}
+        {name}
+        {value}
+        {placeholder}
+        on:change={inputUpdated}
+    />
 </label>
 
 <style>

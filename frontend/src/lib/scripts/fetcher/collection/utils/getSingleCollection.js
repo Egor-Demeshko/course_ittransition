@@ -8,5 +8,6 @@ import { singleCollectionToApp } from "$normolizers/singleCollectionToApp.js";
 export async function getSingleCollection(id) {
     const collection = await apimap[COLLECTION][SINGLE](id);
     const normolizedResult = singleCollectionToApp(collection);
+
     return normolizedResult;
 }

@@ -25,6 +25,7 @@ const config = {
             $components: "src/lib/components",
             $collections: "src/lib/scripts/collections",
             $items: "src/lib/scripts/items",
+            $tags: "src/lib/scripts/tags",
         },
     },
 };

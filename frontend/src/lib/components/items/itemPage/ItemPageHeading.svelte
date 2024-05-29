@@ -2,19 +2,52 @@
     import BottomSingleRow from "./heading/BottomSingleRow.svelte";
     import TopSingleRow from "./heading/TopSingleRow.svelte";
     import { page } from "$app/stores";
+    import { DEFAULT_TITLE } from "$data/texts";
+    import {
+        addNotification,
+        errorNotificationType,
+    } from "$notification/notification";
+    import { errorsmap, ITEM, SINGLE } from "$fetcher/apimap";
+    import { singleItemStore } from "$components/items/itemPage/singleItemStore";
+    import { getItemObject } from "$utils/DTO/getItemObject";
 
-    const name = "Название";
-    const modified_at = "1212-12-12";
-    const id = 1;
-
+    let id = 1;
+    let name = DEFAULT_TITLE;
+    let modified_at = "1212-12-12";
     /**
      * @type {{[key: number]: import('$types/types').Tag}}
      */
+    let tags = {};
 
-    const tags = {
-        1: { id: 1, value: "Tag1" },
-        2: { id: 2, value: "Tag2" },
-    };
+    page.subscribe((page) => {
+        const data = page?.data || null;
+
+        if (!data || !data?.data) {
+            addNotification(errorNotificationType, errorsmap[ITEM][SINGLE]);
+            return;
+        }
+        const actualData = data.data;
+        const item = getItemObject();
+
+        item.id = actualData.id;
+        item.name = actualData.name;
+        item.modified_at = actualData.modified_at;
+        item.tags = actualData.tags;
+        item.fieldMetaData = actualData.fieldMetaData;
+        item.additional_content = actualData.additional_content;
+        item.collection_id = actualData.collection_id;
+        singleItemStore.set(item);
+    });
+
+    singleItemStore.subscribe(
+        //@ts-ignore
+        (item) => {
+            id = item.id;
+            name = item.name;
+            modified_at = item.modified_at;
+            tags = item.tags;
+        }
+    );
 
     function changeTitle() {}
 </script>

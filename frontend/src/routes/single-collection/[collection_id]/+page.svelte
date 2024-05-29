@@ -8,15 +8,17 @@
     } from "$components/items/itemsStores.js";
     import { initialSetup } from "$components/Controlls/stores/checkboxesStore.js";
     import { singleItemToApp } from "$normolizers/singleItemToApp.js";
+    import { COLLECTIONS } from "$data/texts.js";
 
     export let data;
     const values = data?.data;
+    let user_id = "";
 
     if (values.items) {
         const itemsObj = getItemsStoreObj();
         const ids = [];
+        console.log(values);
         for (let item of values.items) {
-            //TODO нормальная выдача items
             itemsObj[item.id] = singleItemToApp(item);
             ids.push(item.id);
         }
@@ -26,7 +28,9 @@
 </script>
 
 <div class="wrapper">
-    <BreadCrumbs />
+    <BreadCrumbs
+        links={[{ name: COLLECTIONS, link: `/collections/${user_id}` }]}
+    />
     <ItemsTop data={values} />
     <ItemList data={values} />
 </div>

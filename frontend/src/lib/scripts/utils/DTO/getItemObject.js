@@ -6,8 +6,11 @@ export function getItemObject() {
     return {
         id: 0,
         name: "",
-        tags: [],
+        tags: {},
         modified_at: "",
         additional_fields: [],
+        collection_id: null,
+        fieldMetaData: null,
+        additional_content: [],
     };
 }

@@ -5,7 +5,7 @@
     export let name = "";
     /** @type {?string} */
     export let value = "";
-    export let invalid = true;
+    export let invalid = false;
     export let placeholder = "";
     /** @type {?string}*/
     export let error = null;

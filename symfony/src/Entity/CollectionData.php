@@ -69,7 +69,7 @@ class CollectionData
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:get:single'])]
+    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:get:single', 'item:get:single'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
