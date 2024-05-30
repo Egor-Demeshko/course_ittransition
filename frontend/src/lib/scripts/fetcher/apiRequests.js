@@ -38,7 +38,7 @@ requestObj[REFRESH] = refreshToken;
  */
 async function register(data) {
     const end = `/${REGISTER}`;
-    const route = `${baseRoute}${end}`;
+    const route = `${apiRoute}${end}`;
 
     return await sendPostForm(route, data);
 }

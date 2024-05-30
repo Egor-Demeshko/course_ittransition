@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/registration', name: 'registration', methods: [Request::METHOD_POST])]
+    #[Route('/api/registration', name: 'registration', methods: [Request::METHOD_POST])]
     public function index(
         Request $request,
         UserRepository $repository,
