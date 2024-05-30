@@ -11,7 +11,7 @@ import { IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_SUCCESS } from "$lib/data/texts.js";
 let uploadManager;
 if (globalThis?.Bytescale) {
     uploadManager = new Bytescale.UploadManager({
-        apiKey: "public_kW15c4aGWhsTb7dCnc9mWrgr5a6W",
+        apiKey: "public_W142idTCMgNjG84kDjyJvYmqDAhq",
     });
 }
 
