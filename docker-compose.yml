@@ -38,7 +38,9 @@ services:
 
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
     container_name: course-frontend
     restart: always
     environment:
