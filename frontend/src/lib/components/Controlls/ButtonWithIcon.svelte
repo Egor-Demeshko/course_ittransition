@@ -20,11 +20,14 @@
 <style>
     .plus {
         height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .align {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: clamp(0.6rem, 1.3vw, 1rem);
     }
 </style>

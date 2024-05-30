@@ -100,4 +100,20 @@
     .delete {
         width: 2.5rem;
     }
+
+    @media screen and (max-width: 780px) {
+        .top {
+            justify-content: stretch;
+            width: 100%;
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .top__left {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.6rem;
+        }
+    }
 </style>

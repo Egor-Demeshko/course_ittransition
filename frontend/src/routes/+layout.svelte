@@ -7,6 +7,7 @@
     import { isLoggined } from "$lib/scripts/login/isLoggined.js";
     import { onNavigate } from "$app/navigation";
     import { onMount } from "svelte";
+    import ThemeToggler from "$components/ThemeToggler.svelte";
 
     let triggered = false;
 
@@ -28,13 +29,24 @@
 
 <TopSideBar />
 
-<slot></slot>
+<div class="container">
+    <slot></slot>
+</div>
 <Form data={exportformFields[LOGIN]} />
 <Form data={exportformFields[REGISTER]} />
 <Notification />
+<div>
+    <ThemeToggler />
+</div>
 
 <style>
     ::global(body) {
         overflow-x: hidden;
+    }
+
+    @media screen and (max-width: 580px) {
+        .container {
+            padding: 0 1rem;
+        }
     }
 </style>

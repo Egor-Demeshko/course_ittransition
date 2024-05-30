@@ -201,7 +201,7 @@
 <style>
     section {
         display: flex;
-        padding-top: 4.5rem;
+        padding-top: clamp(1.5rem, 6vw, 4.5rem);
         padding-bottom: 2rem;
         gap: 1.75rem;
         position: relative;
@@ -227,5 +227,11 @@
         border: 2px solid var(--border-active);
         border-radius: 2px;
         margin: 1.125rem 0;
+    }
+
+    @media screen and (max-width: 980px) {
+        section {
+            flex-direction: column;
+        }
     }
 </style>

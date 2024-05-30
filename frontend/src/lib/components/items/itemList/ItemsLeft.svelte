@@ -66,7 +66,7 @@
     }
 
     span {
-        font-size: 1rem;
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
         color: var(--grey);
     }
     .top {
@@ -97,5 +97,15 @@
     .bottom {
         display: flex;
         gap: 1.125rem;
+    }
+
+    @media screen and (max-width: 780px) {
+        .item_left {
+            gap: 1rem;
+        }
+
+        .top {
+            align-items: center;
+        }
     }
 </style>

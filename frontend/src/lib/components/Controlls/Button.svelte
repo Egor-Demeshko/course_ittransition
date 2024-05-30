@@ -24,16 +24,19 @@
         font-size: 1rem;
         font-weight: bold;
         line-height: 1;
-        padding: 0.75rem 1.25rem;
+        padding: clamp(0.6rem, 0.9vw, 0.75rem) clamp(0.85rem, 1.6vw, 1.25rem);
         transition: background 0.4s ease;
         cursor: pointer;
         flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     /**SIZE*/
     .button.small {
         font-size: 0.875rem;
-        padding: 0.625rem;
+        padding: clamp(0.375rem, 1.1vw, 0.625rem);
         font-weight: normal;
     }
 

@@ -37,7 +37,7 @@
     .item {
         padding: 1.875rem 0;
         display: flex;
-        gap: 2.875rem;
+        gap: clamp(1.125rem, 3.8vw, 2.875rem);
         align-items: center;
     }
 
@@ -45,5 +45,18 @@
         display: flex;
         justify-content: space-between;
         flex: 1;
+    }
+
+    @media screen and (max-width: 780px) {
+        .elements {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .item {
+            overflow-x: clip;
+        }
     }
 </style>

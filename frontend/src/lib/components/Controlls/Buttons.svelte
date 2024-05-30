@@ -170,7 +170,7 @@
     }
     .left {
         display: flex;
-        gap: 2.25rem;
+        gap: clamp(1.5rem, 2.8vw, 2.25rem);
         justify-content: start;
     }
 
@@ -181,5 +181,16 @@
 
     span {
         font-weight: bold;
+    }
+
+    @media screen and (max-width: 780px) {
+        .wrapper {
+            flex-direction: column;
+        }
+
+        .right {
+            flex: 0 0 100px;
+            overflow: hidden;
+        }
     }
 </style>

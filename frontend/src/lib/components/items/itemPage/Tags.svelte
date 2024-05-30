@@ -22,4 +22,12 @@
         align-items: center;
         position: relative;
     }
+
+    @media screen and (max-width: 780px) {
+        div {
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            touch-action: pan-x;
+        }
+    }
 </style>

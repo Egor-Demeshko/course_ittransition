@@ -41,17 +41,20 @@
 
     /* shadow */
     --box-shadow: 0 0 10px var(--background-transparent);
+}
 
-    html.theme-dark {
-        --font-violetfont-color: var(--white);
-        --font-main: var(--white);
-        --font-white: var(--black);
-        --background: var(--dark-violet);
-        --logo-background: var(--light-violet);
-        --logo-color: var(--dark-violet);
-        --icon: var(--white);
-        --background-transparent: var(--white-transparent);
+html.theme-dark {
+    --font-violet: var(--white);
+    --font-main: var(--white);
+    --font-white: var(--black);
+    --background: var(--dark-violet);
+    --logo-background: var(--light-violet);
+    --logo-color: var(--dark-violet);
+    --icon: var(--white);
+    --background-transparent: var(--white-transparent);
 
-        --button-main: var(--light-violet);
-    }
+    --button-main: var(--light-violet);
+    --button-main-hover: var(--violet);
+    --button-secondary: var(--light-violet);
+    --button-secondary-hover: var(--light-grey);
 }

@@ -34,14 +34,14 @@
 
     h1 {
         font-size: 1.25rem;
-        color: var(--dark-violet);
+        color: var(--font-violet);
         font-family: Poppins, sans-serif;
     }
 
     h4 {
         font-size: 0.875rem;
         font-family: Poppins, sans-serif;
-        color: var(--dark-violet);
+        color: var(--font-violet);
     }
 
     section {

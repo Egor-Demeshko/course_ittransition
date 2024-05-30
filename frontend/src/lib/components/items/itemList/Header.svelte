@@ -115,7 +115,7 @@
         font-family: Poppins, sans-serif;
         display: flex;
         justify-content: start;
-        gap: 1.375rem;
+        gap: clamp(0.85rem, 1.5vw, 1.375rem);
         padding-bottom: 0.875rem;
         border-bottom: 4px solid var(--light-violet);
     }
@@ -130,8 +130,14 @@
     }
 
     p {
-        font-size: 1.125rem;
+        font-size: clamp(0.85rem, 1.5vw, 1.125rem);
         font-weight: bold;
         color: var(--logo-background);
+    }
+
+    @media screen and (max-width: 580px) {
+        .items_header {
+            flex-direction: column;
+        }
     }
 </style>

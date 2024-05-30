@@ -61,10 +61,10 @@
     </h4>
     <div class="data">
         <p class="modified">
-            {`${LAST_MODIFIED}:`}
+            <span>{`${LAST_MODIFIED}:`}</span>
             <span>{modified_at ? modified_at : WAS_NOT_MODIFIED}</span>
         </p>
-        <span>{COLLECTION_ID}: {id}</span>
+        <span class="collection_id">{COLLECTION_ID}: {id}</span>
     </div>
 </div>
 
@@ -79,7 +79,7 @@
 
     .modified {
         display: flex;
-        gap: 1.5rem;
+        gap: clamp(0.6rem, 1.9vw, 1.5rem);
         align-items: center;
     }
 
@@ -113,6 +113,24 @@
         font-size: 1rem;
         line-height: 1;
         color: var(--grey);
-        margin-top: 4px;
+    }
+
+    @media screen and (max-width: 760px) {
+        .data {
+            margin-top: 0.875rem;
+        }
+        .modified {
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .modified span {
+            word-break: break-all;
+        }
+
+        .collection_id {
+            margin-top: 0.875rem;
+            display: block;
+        }
     }
 </style>

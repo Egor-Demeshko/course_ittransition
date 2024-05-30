@@ -33,7 +33,7 @@ class SingleCollection implements ProviderInterface
     {
         foreach ($items as $item) {
             $content = $item->getAdditionalFieldContents();
-            $slicedContent = $content->slice(-2);
+            $slicedContent = $content->slice(0, 2);
             $content->clear();
             foreach ($slicedContent as $singleContent) {
                 $content->add($singleContent);

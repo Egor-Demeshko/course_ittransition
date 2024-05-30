@@ -27,7 +27,7 @@
 
     a {
         text-decoration: none;
-        color: var(--dark-violet);
+        color: var(--font-violet);
         transition: color 0.4s ease;
     }
 

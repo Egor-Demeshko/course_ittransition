@@ -35,7 +35,7 @@
     .label {
         font-weight: bold;
         font-size: 0.875rem;
-        color: var(--dark-violet);
+        color: var(--font-violet);
         font-family: Poppins, sans-serif;
     }
 </style>
