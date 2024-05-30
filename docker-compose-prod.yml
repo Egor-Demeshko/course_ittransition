@@ -6,8 +6,7 @@ services:
     ports: 
     - 8080:80
     volumes:
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    - ./nginx/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    - ./nginx/nginx-prod.conf:/etc/nginx/nginx.conf
     - ./symfony/public/bundles:/app/public/bundles
     depends_on:
       - symfony
@@ -15,7 +14,9 @@ services:
       - symfony
 
   symfony:
-    build: ./symfony
+    build: 
+      context: ./symfony
+      dockerfile: prod.Dockerfile
     container_name: course-symfony
     restart: always
     environment:
@@ -27,6 +28,8 @@ services:
         condition: service_healthy
     networks:
       - symfony
+    volumes:
+      - ./symfony/config/jwt:/app/config/jwt
 
   frontend:
     build: ./frontend
