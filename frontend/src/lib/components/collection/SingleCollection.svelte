@@ -71,7 +71,6 @@
                         successNotificationType,
                         ADDITIONAL_FIELD_ADDED
                     );
-
                     const receivedObj = additionalFieldToApp(result);
 
                     fields = [receivedObj, ...fields];

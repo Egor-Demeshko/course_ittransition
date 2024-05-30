@@ -37,7 +37,7 @@ class AdditionalFieldLink
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:delete'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:delete', 'additionalfield:patch:response'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: CollectionData::class, inversedBy: 'additionalFields')]
@@ -47,7 +47,7 @@ class AdditionalFieldLink
 
     #[ORM\OneToOne(cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write', 'additionalfield:patch:response'])]
     private ?AdditionalFieldData $field_data = null;
 
     public function getId(): ?int

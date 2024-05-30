@@ -26,7 +26,7 @@
     export let fields = [];
     async function changeFieldData({ detail }) {
         let { type, label, field_id, unBlockButtons, orderId } = detail;
-        console.log(unBlockButtons);
+
         if (typeof field_id !== "number" || !field_id) {
             addNotification(errorNotificationType, ERROR_DUE_INTERFACE);
             unBlockButtons();
@@ -50,6 +50,7 @@
                     token,
                     JSON.stringify(objToSend)
                 );
+
                 if (result) {
                     addNotification(
                         successNotificationType,
@@ -71,6 +72,8 @@
 
             if ((type && orderId) || (type && orderId === 0)) {
                 fieldData["type"] = type;
+            } else if ((label && orderId) || (label && orderId === 0)) {
+                fieldData["label"] = label;
             }
         });
 
