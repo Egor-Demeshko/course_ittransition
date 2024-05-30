@@ -1,15 +1,23 @@
-FROM node
+FROM node AS builder
 
-WORKDIR /app
+WORKDIR /staging
 
-EXPOSE 3000
-
-COPY package*.json ./
+COPY . ./
 
 RUN npm install -g pnpm
 
-RUN pnpm install
+RUN corepack enable && \
+    pnpm install --frozen-lockfile && \
+    pnpm build && \
+    pnpm prune --prod
 
-COPY . .
 
-CMD ["pnpm", "run", "dev"]
+
+FROM node
+WORKDIR /app
+COPY --from=builder /staging/package.json /staging/pnpm-lock.yaml  /app/
+COPY --from=builder /staging/node_modules /app/node_modules
+COPY --from=builder /staging/build /app/build   
+
+EXPOSE 3000
+CMD ["node", "-r", "dotenv/config", "/app/build/index.js"]
