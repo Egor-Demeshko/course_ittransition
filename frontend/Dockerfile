@@ -20,4 +20,4 @@ COPY --from=builder /staging/node_modules /app/node_modules
 COPY --from=builder /staging/build /app/build   
 
 EXPOSE 3000
-CMD ["node", "ORIGIN=http://localhost:3000" ,"-r", "dotenv/config", "/app/build/index.js"]
+CMD ["ORIGIN=http://localhost:3000", "node" ,"-r", "dotenv/config", "/app/build/index.js"]
