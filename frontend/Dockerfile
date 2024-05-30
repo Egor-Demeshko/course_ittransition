@@ -19,5 +19,8 @@ COPY --from=builder /staging/package.json /staging/pnpm-lock.yaml  /app/
 COPY --from=builder /staging/node_modules /app/node_modules
 COPY --from=builder /staging/build /app/build   
 
+ENV ORIGIN=http://localhost:3000
+
+
 EXPOSE 3000
-CMD ["ORIGIN=http://localhost:3000", "node" ,"-r", "dotenv/config", "/app/build/index.js"]
+CMD ["node" ,"-r", "dotenv/config", "/app/build/index.js"]
