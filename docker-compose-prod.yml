@@ -18,6 +18,10 @@ services:
     build: ./symfony
     container_name: course-symfony
     restart: always
+    environment:
+      - JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+      - JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+      - JWT_PASSPHRASE=admin
     depends_on:
       mysql:
         condition: service_healthy
@@ -28,6 +32,9 @@ services:
     build: ./frontend
     container_name: course-frontend
     restart: always
+    environment:
+      - PUBLIC_API_ORIGIN=45.87.219.64:8080
+      - PUBLIC_API_PROTOCOL=http://
     depends_on:
       - symfony
     networks:
