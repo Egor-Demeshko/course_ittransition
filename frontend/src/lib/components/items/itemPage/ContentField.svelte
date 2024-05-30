@@ -17,7 +17,7 @@
             <Input value={content} name={content} />
         {:else if type === "Checkbox"}
             <CheckBox {id} />
-        {:else if type === "date"}
+        {:else if type === "Date"}
             <Input type="date" value={content} />
         {:else if type === "Number"}
             <Input type="number" value={content} />
@@ -35,7 +35,7 @@
     .label {
         font-weight: bold;
         font-size: 0.875rem;
-        color: var(--dark-violet);
+        color: var(--font-violet);
         font-family: Poppins, sans-serif;
     }
 </style>

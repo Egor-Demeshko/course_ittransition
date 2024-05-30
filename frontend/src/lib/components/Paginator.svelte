@@ -104,4 +104,11 @@
     button.active:hover {
         background-color: var(--button-main-hover);
     }
+
+    @media screen and (max-width: 760px) {
+        div {
+            top: unset;
+            bottom: 1rem;
+        }
+    }
 </style>

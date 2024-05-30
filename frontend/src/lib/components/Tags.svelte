@@ -49,4 +49,17 @@
     .tag:hover {
         background-color: var(--violet);
     }
+
+    @media screen and (max-width: 780px) {
+        .wrapper {
+            width: 100%;
+        }
+
+        .tags {
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            touch-action: pan-x;
+            width: 100%;
+        }
+    }
 </style>

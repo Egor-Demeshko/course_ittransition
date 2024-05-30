@@ -64,7 +64,7 @@ class Item
      * @var Collection<int, AdditionalFieldContent>
      */
     #[ORM\OneToMany(targetEntity: AdditionalFieldContent::class, mappedBy: 'item')]
-    #[Groups(['item:get:single'])]
+    #[Groups(['item:get:single', 'collection:get:single'])]
     private Collection $additionalFieldContents;
 
     #[ORM\OneToMany(targetEntity: TagLink::class, mappedBy: "item", cascade: ['persist'])]

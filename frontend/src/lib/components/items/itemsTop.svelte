@@ -88,4 +88,10 @@
         display: flex;
         align-items: end;
     }
+
+    @media screen and (max-width: 760px) {
+        .data {
+            flex-direction: column;
+        }
+    }
 </style>

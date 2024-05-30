@@ -51,9 +51,10 @@
     @media screen and (max-width: 580px) {
         .add_button__position {
             position: fixed;
-            left: 1rem;
+            left: unset;
+            bottom: unset;
+            top: 4.5rem;
             right: 1rem;
-            bottom: 1rem;
         }
     }
 </style>

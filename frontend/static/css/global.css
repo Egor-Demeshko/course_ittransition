@@ -22,3 +22,8 @@ h6 {
 a {
     text-decoration: none;
 }
+
+body {
+    background: var(--background);
+    transition: background 0.2s ease;
+}

@@ -45,10 +45,13 @@
     .additional {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        padding-top: 3.375rem;
+        padding-top: clamp(1.5rem, 4.5vw, 3.375rem);
         gap: 1rem;
     }
 
-    .field {
+    @media screen and (max-width: 780px) {
+        .additional {
+            grid-template-columns: 1fr;
+        }
     }
 </style>

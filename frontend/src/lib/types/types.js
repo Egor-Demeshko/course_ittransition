@@ -131,6 +131,8 @@ export const FieldMetaData = "FieldMetaData";
  * @property {string} modified_at
  * @property {Array<string>} additionalFields
  * @property {ItemsList} items
+ * @property {?number} user_id
+ * @property {Array<AdditionalContent>} additionalFieldContents
 
  */
 export const SingleCollection = "SingleCollection";
@@ -163,3 +165,13 @@ export const tagCreate = "tagCreate";
  * @property {string} label -
  */
 export const AdditionalContent = "AdditionalContent";
+
+/**
+ * @typedef TopFive
+ * @property {?number} collection_id
+ * @property {string} title
+ * @property {string} description
+ * @property {string} image_link
+ * @property {number} item_quantity
+ */
+export const TopFive = "TopFive";

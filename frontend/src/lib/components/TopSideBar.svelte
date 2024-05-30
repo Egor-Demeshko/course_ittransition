@@ -15,7 +15,9 @@
 <header>
     <div class="logo">
         <Logo />
-        <Search />
+        <div class="searchplace">
+            <Search />
+        </div>
     </div>
     <div class="account">
         <div class="account__wrapper">
@@ -88,5 +90,16 @@
 
     button:hover {
         color: var(--logo-background);
+    }
+
+    .searchplace {
+        width: 100%;
+        max-width: 860px;
+    }
+
+    @media screen and (max-width: 580px) {
+        .searchplace {
+            display: none;
+        }
     }
 </style>

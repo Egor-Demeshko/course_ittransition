@@ -7,7 +7,7 @@
      * @type {import('$types/types').Item}
      */
     export let item;
-    let { id, name, modified_at, tags, additional_fields } = item;
+    let { id, name, modified_at, tags, additional_content } = item;
 
     function setUpdatedData({ detail }) {
         let { modified_at_updated, name_updated } = detail;
@@ -26,7 +26,7 @@
         <ItemsLeft
             {id}
             {name}
-            {additional_fields}
+            {additional_content}
             on:col_title_changed={setUpdatedData}
         />
         <ItemsRight {id} {modified_at} {tags} />
@@ -37,7 +37,7 @@
     .item {
         padding: 1.875rem 0;
         display: flex;
-        gap: 2.875rem;
+        gap: clamp(1.125rem, 3.8vw, 2.875rem);
         align-items: center;
     }
 
@@ -45,5 +45,18 @@
         display: flex;
         justify-content: space-between;
         flex: 1;
+    }
+
+    @media screen and (max-width: 780px) {
+        .elements {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .item {
+            overflow-x: clip;
+        }
     }
 </style>

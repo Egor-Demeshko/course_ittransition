@@ -19,9 +19,14 @@ export function additionalContentToApp(data) {
             case "additional_data":
                 populateResult(resultObj, value);
                 break;
+            case "label":
+                resultObj.label = value.toString();
+                break;
+            case "type":
+                resultObj.type = value.toString();
+                break;
         }
     }
-
     return resultObj;
 }
 

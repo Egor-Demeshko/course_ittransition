@@ -1,4 +1,5 @@
 import { getSingleCollectionObj } from "$utils/DTO/getCollectionObj";
+import { additionalContentToApp } from "./additionalContentToApp";
 
 /** @param {Record<string, any>} data */
 export function singleCollectionToApp(data) {
@@ -22,7 +23,10 @@ export function singleCollectionToApp(data) {
                 singleCollectionObject.additionalFields = value;
                 break;
             case "items":
-                singleCollectionObject.items = value;
+                singleCollectionObject.items = parseItems(value);
+                break;
+            case "user":
+                singleCollectionObject.user_id = value.id;
                 break;
         }
     }
@@ -35,14 +39,27 @@ export function singleCollectionToApp(data) {
  * @return {Array<import('$types/types').Item>} items
  */
 function parseItems(items) {
-    for (let item of items) {
-        const newTags = [];
-        for (let tagLink of item.tagLinks) {
-            if (tagLink.tag && tagLink.tag.value) {
-                newTags.push(tagLink.tag.value);
-            }
+    items.forEach((item) => {
+        if (item.additionalFieldContents) {
+            item.additionalFieldContents = parseContents(
+                item.additionalFieldContents
+            );
         }
-        item.tagLinks = newTags;
-    }
+    });
+
     return items;
+}
+
+/** @param {[{}]} value*/
+function parseContents(value) {
+    /** @type {Array<import('$types/types').AdditionalContent>} */
+    const result = [];
+    value.forEach((content) => {
+        let value = additionalContentToApp(content);
+
+        if (value) {
+            result.push(value);
+        }
+    });
+    return result;
 }

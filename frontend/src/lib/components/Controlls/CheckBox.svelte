@@ -62,6 +62,7 @@
         background-color: var(--border);
         cursor: pointer;
         transition: background 0.4s ease;
+        flex: 0 0 28px;
     }
 
     .checkbox:hover {

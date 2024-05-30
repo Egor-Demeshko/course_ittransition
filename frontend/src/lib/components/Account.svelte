@@ -2,12 +2,15 @@
     import { user } from "$lib/scripts/token/userStore.js";
     import { onLogout } from "$lib/scripts/logout/onLogout.js";
     import { scale } from "svelte/transition";
-    import { GUEST, HELLO, LOGOUT } from "$lib/data/texts";
+    import { GUEST, HELLO, LOGOUT, MY_COLLECTIONS } from "$lib/data/texts";
+    import { COLLECTION } from "$fetcher/apimap";
 
     let open = false;
 
     // @ts-ignore
     $: name = $user?.name ?? GUEST;
+    // @ts-ignore
+    $: user_id = $user?.user_id ?? null;
 
     function clickHandler() {
         open = !open;
@@ -41,6 +44,9 @@
         <ul class="dropdown" transition:scale>
             <li style="cursor: default; pointer-events: none">
                 {`${HELLO} ${name}`}
+            </li>
+            <li style="">
+                <a href={`/${COLLECTION}/${user_id}`}>{MY_COLLECTIONS}</a>
             </li>
             <hr />
             <button class="logout" on:click={onLogout}>{LOGOUT}</button>
@@ -101,6 +107,11 @@
         transition: background 0.4s ease;
         padding: 0.4rem 0.875rem;
         border-radius: 6px;
+    }
+
+    li a {
+        text-decoration: none;
+        color: var(--font-main);
     }
 
     .logout:hover,

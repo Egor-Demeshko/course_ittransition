@@ -100,7 +100,7 @@
         flex: 1;
         font-family: Poppins, sans-serif;
         font-weight: bold;
-        color: var(--dark-violet);
+        color: var(--font-violet);
     }
 
     h1 {
@@ -108,7 +108,7 @@
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: var(--dark-violet);
+        color: var(--font-violet);
         border: 2px solid transparent;
         transition: border 0.4s ease;
         border-radius: 4px;
@@ -131,5 +131,19 @@
 
     .button {
         flex: 0;
+    }
+
+    @media screen and (max-width: 580px) {
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .input {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: start;
+        }
     }
 </style>

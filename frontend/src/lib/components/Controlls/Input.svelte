@@ -65,4 +65,11 @@
     input::placeholder {
         color: var(--dark-grey);
     }
+
+    @media screen and (max-width: 780px) {
+        label {
+            flex-direction: column;
+            align-items: start;
+        }
+    }
 </style>

@@ -92,6 +92,17 @@
 
     .bottom__buttons {
         display: flex;
-        gap: 3.75rem;
+        gap: clamp(1.25rem, 4.7vw, 3.75rem);
+    }
+
+    @media screen and (max-width: 780px) {
+        .top_row {
+            flex-direction: column;
+            gap: 0.875rem;
+        }
+
+        .bottom__buttons {
+            flex-direction: column;
+        }
     }
 </style>

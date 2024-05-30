@@ -145,4 +145,10 @@
         flex-wrap: wrap;
         position: relative;
     }
+
+    @media screen and (max-width: 580px) {
+        .fields {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>

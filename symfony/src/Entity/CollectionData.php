@@ -18,6 +18,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Category;
+use App\State\SingleCollection;
+use App\State\TopCollections;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,7 +31,8 @@ use Doctrine\ORM\Mapping\OneToMany;
     shortName: "Collection",
     operations: [
         new Get(
-            normalizationContext: ['groups' => ['collection:get:single']]
+            normalizationContext: ['groups' => ['collection:get:single']],
+            provider: SingleCollection::class
         ),
         new Post(
             normalizationContext: ['groups' => ['collection:create:newitem']],
@@ -64,12 +67,21 @@ use Doctrine\ORM\Mapping\OneToMany;
     shortName: 'Delete items on collection',
     denormalizationContext: ['groups' => ['collection:delete:items']]
 )]
+#[ApiResource(
+    shortName: "Biggest Collection",
+    operations: [
+        new GetCollection(
+            provider: TopCollections::class
+        )
+    ],
+    normalizationContext: ['groups' => ['biggest:get:read']]
+)]
 class CollectionData
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:get:single', 'item:get:single'])]
+    #[Groups(['collection:create:newitem', 'collections:peruser', 'collection:get:single', 'item:get:single', 'biggest:get:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -80,11 +92,18 @@ class CollectionData
         'collections:peruser',
         'collection:patch:write',
         'collection:get:single',
+        'biggest:get:read'
     ])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['collection:create:newitem', 'collection:create', 'collections:peruser', 'collection:patch:write'])]
+    #[Groups([
+        'collection:create:newitem',
+        'collection:create',
+        'collections:peruser',
+        'collection:patch:write',
+        'biggest:get:read'
+    ])]
     private ?string $description = null;
 
     #[ORM\Column]
@@ -98,7 +117,7 @@ class CollectionData
     private ?Category $cathegory = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['collections:peruser', 'collection:patch:write', 'collection:get:single'])]
+    #[Groups(['collections:peruser', 'collection:patch:write', 'collection:get:single', 'biggest:get:read'])]
     private ?string $image_link = null;
 
     #[ORM\Column]
@@ -118,11 +137,11 @@ class CollectionData
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'collectionData')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups(['collection:create:newitem', 'collection:create'])]
+    #[Groups(['collection:create:newitem', 'collection:create', 'collection:get:single'])]
     private ?User $user = null;
 
     #[OneToMany(targetEntity: AdditionalFieldLink::class, mappedBy: 'collection', cascade: ["persist"])]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'collection:get:single'])]
+    #[Groups(['collection:patch:write', 'collections:peruser'])]
     private Collection $additionalFields;
 
     /**

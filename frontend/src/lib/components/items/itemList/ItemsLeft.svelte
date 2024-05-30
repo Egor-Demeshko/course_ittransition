@@ -13,8 +13,7 @@
     let editStatus = true;
 
     /** @type {import('$types/types').AdditionalFieldComposed[]}*/
-    export let additional_fields = [];
-
+    export let additional_content = [];
     const dispatch = createEventDispatcher();
 
     async function changeItemTitle(e) {
@@ -50,7 +49,7 @@
         </h4>
     </div>
     <div class="bottom">
-        {#each additional_fields as { label, type, content }}
+        {#each additional_content as { label, type, content }}
             <ItemAdditionalField {label} {type} {content} />
         {/each}
     </div>
@@ -67,7 +66,7 @@
     }
 
     span {
-        font-size: 1rem;
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
         color: var(--grey);
     }
     .top {
@@ -98,5 +97,15 @@
     .bottom {
         display: flex;
         gap: 1.125rem;
+    }
+
+    @media screen and (max-width: 780px) {
+        .item_left {
+            gap: 1rem;
+        }
+
+        .top {
+            align-items: center;
+        }
     }
 </style>

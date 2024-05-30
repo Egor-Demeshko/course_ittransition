@@ -65,4 +65,10 @@
     .item_id {
         font-size: 1rem;
     }
+
+    @media screen and (max-width: 780px) {
+        .wrapper {
+            flex-direction: column;
+        }
+    }
 </style>
