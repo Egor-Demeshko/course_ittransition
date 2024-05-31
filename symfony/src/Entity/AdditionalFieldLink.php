@@ -19,7 +19,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         // new GetCollection(),
         new Post(
-            denormalizationContext: ['groups' => ['additionalfield:create']]
+            denormalizationContext: ['groups' => ['additionalfield:create']],
+            normalizationContext: ['groups' => ['additionalfield:post:response']]
         ),
         new Patch(
             denormalizationContext: ['groups' => ['additionalfield:patch:write']],
@@ -37,7 +38,7 @@ class AdditionalFieldLink
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:delete', 'additionalfield:patch:response'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:delete', 'additionalfield:patch:response', 'additionalfield:post:response'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: CollectionData::class, inversedBy: 'additionalFields')]
@@ -47,7 +48,7 @@ class AdditionalFieldLink
 
     #[ORM\OneToOne(cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write', 'additionalfield:patch:response'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:post:response', 'additionalfield:patch:write', 'additionalfield:patch:response'])]
     private ?AdditionalFieldData $field_data = null;
 
     public function getId(): ?int

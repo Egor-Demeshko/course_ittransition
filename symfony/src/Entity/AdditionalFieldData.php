@@ -24,11 +24,11 @@ class AdditionalFieldData
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write', 'additionalfield:patch:response', 'item:get:single', 'datacontent:post:read'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:post:response', 'additionalfield:patch:write', 'additionalfield:patch:response', 'item:get:single', 'datacontent:post:read'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:patch:write', 'additionalfield:patch:response', 'item:get:single', 'datacontent:post:read', 'collection:get:single'])]
+    #[Groups(['collection:patch:write', 'collections:peruser', 'additionalfield:create', 'additionalfield:post:response', 'additionalfield:patch:write', 'additionalfield:patch:response', 'item:get:single', 'datacontent:post:read', 'collection:get:single'])]
     private ?string $label = null;
 
     #[ORM\OneToOne(targetEntity: AdditionalFieldLink::class)]

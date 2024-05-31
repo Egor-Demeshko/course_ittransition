@@ -66,6 +66,7 @@
                     id,
                     token
                 );
+
                 if (result) {
                     addNotification(
                         successNotificationType,
